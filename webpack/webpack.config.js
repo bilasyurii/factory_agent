@@ -1,6 +1,7 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/main.ts',
@@ -26,5 +27,14 @@ module.exports = {
       title: 'Factory Agent'
     }),
     new CleanWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'assets',
+          to: 'assets',
+          noErrorOnMissing: true,
+        },
+      ],
+    }),
   ]
 };
