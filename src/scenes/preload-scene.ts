@@ -13,13 +13,19 @@ export default class PreloadScene extends Phaser.Scene {
     ]);
 
     this.loadFolder('assets/images/buildings/', [
-      'assembly',
+      'assembly_cars',
+      'assembly_tools',
+      'assembly_toys',
+      'derrick',
       'furnace',
-      'mine',
+      'mine_coal',
+      'mine_iron',
       'power_plant',
-      'refinery',
+      'refinery_oil',
+      'refinery_plastic',
       'storage',
       'turbine',
+      'water_pump',
     ]);
 
     this.loadFolder('assets/images/conveyor/', [

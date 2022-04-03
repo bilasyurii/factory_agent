@@ -23,7 +23,7 @@ export default class WorldLoader {
 
     const building = new Building();
     building.setView(new BuildingView(this.scene, {
-      key: 'refinery',
+      key: 'refinery_oil',
     }));
     this.grid.getTile(2, 3).setBuilding(building);
     this.grid.addBuilding(building);
