@@ -10,6 +10,9 @@ export default class PreloadScene extends Phaser.Scene {
 
     this.loadFolder('assets/images/tiles/', [
       'platform',
+      'grass',
+      'water',
+      'sand',
     ]);
 
     this.loadFolder('assets/images/buildings/', [
