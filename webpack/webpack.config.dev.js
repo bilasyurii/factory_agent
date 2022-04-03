@@ -10,4 +10,18 @@ module.exports = merge(common, {
   optimization: {
     runtimeChunk: true
   },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+          },
+        },
+        exclude: /node_modules/,
+      },
+    ],
+  },
 });
