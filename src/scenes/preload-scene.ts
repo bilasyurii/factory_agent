@@ -19,7 +19,7 @@ export default class PreloadScene extends Phaser.Scene {
       'assembly_cars',
       'assembly_tools',
       'assembly_toys',
-      'derrick',
+      'derrick_oil',
       'furnace',
       'mine_coal',
       'mine_iron',

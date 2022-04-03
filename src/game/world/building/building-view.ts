@@ -1,12 +1,12 @@
 import { TilePos } from '../../helpers/tile-pos';
 import Building from './building';
-import IBuildingConfig from './building-config.interface';
+import BuildingSettings from './building-settings';
 
 export default class BuildingView extends Phaser.GameObjects.Sprite {
   private building: Building;
 
-  constructor(scene: Scene, config: IBuildingConfig) {
-    super(scene, 0, 0, config.key);
+  constructor(scene: Scene, settings: BuildingSettings) {
+    super(scene, 0, 0, settings.startingViewKey);
   }
 
   public setBuilding(tile: Building): void {

@@ -1,4 +1,5 @@
 import Building from '../building/building';
+import TileType from './tile-type.enum';
 import TileView from './tile-view';
 
 export default class Tile {
@@ -6,6 +7,15 @@ export default class Tile {
   protected y: number = 0;
   protected view: TileView = null;
   protected building: Building = null;
+  protected type: TileType = TileType.Grass;
+
+  public getType(): TileType {
+    return this.type;
+  }
+
+  public setType(type: TileType): void {
+    this.type = type;
+  }
 
   public getX(): number {
     return this.x;

@@ -1,5 +1,6 @@
 import World from './world/world';
 import BasicLevel from '../data/levels/basic-level.json';
+import ILevelConfig from './world/loading/level-config.interface';
 
 export default class GameContainer extends Phaser.GameObjects.Container {
   private world: World;
@@ -17,6 +18,6 @@ export default class GameContainer extends Phaser.GameObjects.Container {
 
     world
       .getLoader()
-      .loadFromJSON(BasicLevel);
+      .load(<ILevelConfig>BasicLevel);
   }
 }

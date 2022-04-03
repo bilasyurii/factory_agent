@@ -1,43 +1,65 @@
-import Building from '../building/building';
-import BuildingView from '../building/building-view';
+import BuildingFactory from '../building/building-factory';
 import Grid from '../grid/grid';
-import Tile from '../tiles/tile';
-import TileView from '../tiles/tile-view';
+import TileFactory from '../tiles/tile-factory';
+import TileType from '../tiles/tile-type.enum';
+import ILevelConfig, { ILevelBuildingConfig, ILevelSize, ILevelTileConfig, ILevelTileFillConfig, ILevelTilesConfig } from './level-config.interface';
+import IWorldLoaderConfig from './world-loader-config.interface';
 
 export default class WorldLoader {
   private grid: Grid;
-  private scene: Scene;
+  private buildingFactory: BuildingFactory;
+  private tileFactory: TileFactory;
 
-  constructor(grid: Grid) {
-    this.grid = grid;
-    this.scene = grid.scene;
+  constructor(config: IWorldLoaderConfig) {
+    this.grid = config.grid;
+    this.buildingFactory = config.buildingFactory;
+    this.tileFactory = config.tileFactory;
   }
 
-  public loadFromJSON(json: any): void {
-    console.log(json);
-    for (let i = 0; i < 10; ++i) {
-      for (let j = 0; j < 10; ++j) {
-        this.createEmpty(i, j);
+  public load(config: ILevelConfig): void {
+    this.loadTiles(config.size, config.tiles);
+    this.loadBuildings(config.buildings);
+  }
+
+  private loadTiles(size: ILevelSize, tiles: ILevelTilesConfig): void {
+    this.fillTiles(size, tiles.fill);
+    this.loadTileExceptions(tiles.exceptions);
+  }
+
+  private loadBuildings(buildings: ILevelBuildingConfig[]): void {
+    const factory = this.buildingFactory;
+    const grid = this.grid;
+
+    buildings.forEach((config) => {
+      const building = factory.create(config.type);
+      const tile = grid.getTile(config.x, config.y);
+
+      tile.setBuilding(building);
+      grid.addBuilding(building);
+    });
+  }
+
+  private fillTiles(size: ILevelSize, fill: ILevelTileFillConfig): void {
+    const width = size.width;
+    const height = size.height;
+    const fillType = fill.type;
+
+    for (let y = 0; y < height; ++y) {
+      for (let x = 0; x < width; ++x) {
+        this.createTile(x, y, fillType);
       }
     }
-
-    const building = new Building();
-    building.setView(new BuildingView(this.scene, {
-      key: 'refinery_oil',
-    }));
-    this.grid.getTile(2, 3).setBuilding(building);
-    this.grid.addBuilding(building);
   }
 
-  private createEmpty(x: number, y: number): void {
-    const tile = new Tile();
+  private loadTileExceptions(exceptions: ILevelTileConfig[]): void {
+    exceptions.forEach((config) => {
+      this.createTile(config.x, config.y, config.type);
+    });
+  }
 
-    tile.setView(new TileView(this.scene, {
-      key: 'platform',
-    }));
-
+  private createTile(x: number, y: number, type: TileType): void {
+    const tile = this.tileFactory.create(type);
     tile.setPosition(x, y);
-
     this.grid.addTile(tile);
   }
 }

@@ -1,11 +1,11 @@
 import { TilePos } from '../../helpers/tile-pos';
 import Tile from './tile';
-import ITileConfig from './tile-config.interface';
+import ITileSettings from './tile-settings.interface';
 
 export default class TileView extends Phaser.GameObjects.Sprite {
   private tile: Tile;
 
-  constructor(scene: Scene, config: ITileConfig) {
+  constructor(scene: Scene, config: ITileSettings) {
     super(scene, 0, 0, config.key);
   }
 

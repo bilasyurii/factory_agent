@@ -1,14 +1,18 @@
 import Building from './building/building';
+import BuildingFactory from './building/building-factory';
 import Grid from './grid/grid';
 import GridEventType from './grid/grid-event-type.enum';
 import WorldLoader from './loading/world-loader';
 import Tile from './tiles/tile';
+import TileFactory from './tiles/tile-factory';
 
 export default class World extends Phaser.GameObjects.Container {
   private grid: Grid;
   private loader: WorldLoader;
   private tilesLayer: Container;
   private buildingsLayer: Container;
+  private buildingFactory: BuildingFactory;
+  private tileFactory: TileFactory;
 
   constructor(scene: Scene) {
     super(scene);
@@ -16,6 +20,8 @@ export default class World extends Phaser.GameObjects.Container {
     this.initContainers();
     this.initGrid();
     this.setupEvents();
+    this.initBuildingFactory();
+    this.initTileFactory();
     this.initLoader();
   }
 
@@ -40,8 +46,20 @@ export default class World extends Phaser.GameObjects.Container {
     });
   }
 
+  private initBuildingFactory(): void {
+    this.buildingFactory = new BuildingFactory(this.scene);
+  }
+
+  private initTileFactory(): void {
+    this.tileFactory = new TileFactory(this.scene);
+  }
+
   private initLoader(): void {
-    this.loader = new WorldLoader(this.grid);
+    this.loader = new WorldLoader({
+      grid: this.grid,
+      buildingFactory: this.buildingFactory,
+      tileFactory: this.tileFactory,
+    });
   }
 
   private setupEvents(): void {
