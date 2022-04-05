@@ -1,6 +1,6 @@
-import ResourceType from "../resource/resource-type.enum";
-import IBuildingConfig from "./building-config.interface";
-import BuildingType from "./building-type.enum";
+import ResourceType from '../resource/resource-type.enum';
+import IBuildingConfig from './building-config.interface';
+import BuildingType from './building-type.enum';
 
 export default class BuildingSettings {
   public readonly name: string;

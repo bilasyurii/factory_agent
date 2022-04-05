@@ -1,7 +1,7 @@
-import Tile from "./tile";
-import ITileSettings from "./tile-settings.interface";
-import TileType from "./tile-type.enum";
-import TileView from "./tile-view";
+import Tile from './tile';
+import ITileSettings from './tile-settings.interface';
+import TileType from './tile-type.enum';
+import TileView from './tile-view';
 
 export default class TileFactory {
   private scene: Scene;
@@ -14,15 +14,23 @@ export default class TileFactory {
   }
 
   public create(type: TileType): Tile {
-    const settings = this.settingsLookup[type];
     const tile = new Tile();
+    this.setupTile(tile, type);
+    return tile;
+  }
+
+  public setupTile(tile: Tile, type: TileType): void {
+    const settings = this.settingsLookup[type];
     tile.setType(type);
     tile.setView(new TileView(this.scene, settings));
-    return tile;
   }
 
   private setupSettings(): void {
     const settings = [
+      {
+        key: 'platform',
+        type: TileType.Platform,
+      },
       {
         key: 'grass',
         type: TileType.Grass,
@@ -30,6 +38,10 @@ export default class TileFactory {
       {
         key: 'water',
         type: TileType.Water,
+      },
+      {
+        key: 'sand',
+        type: TileType.Sand,
       },
     ];
 

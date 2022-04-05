@@ -2,8 +2,6 @@ import Tile from '../tiles/tile';
 import BuildingView from './building-view';
 
 export default class Building {
-  protected x: number = 0;
-  protected y: number = 0;
   protected view: BuildingView = null;
   protected tile: Tile = null;
 
@@ -25,7 +23,10 @@ export default class Building {
       }
   
       this.view = view;
-      view.setBuilding(this);
+
+      if (view) {
+        view.setBuilding(this);
+      }
     }
   }
 
@@ -43,8 +44,16 @@ export default class Building {
       }
   
       this.tile = tile;
-      this.view.updatePosition();
-      tile.setBuilding(this);
+
+      const view = this.view;
+
+      if (view) {
+        view.updatePosition();
+      }
+
+      if (tile) {
+        tile.setBuilding(this);
+      }
     }
   }
 

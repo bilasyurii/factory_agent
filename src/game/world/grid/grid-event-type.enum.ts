@@ -1,6 +1,8 @@
 enum GridEventType {
-  TileAdded = 'TileAdded',
-  BuildingAdded = 'BuildingAdded',
+  RemoveTileView = 'RemoveTileView',
+  AddTileView = 'AddTileView',
+  RemoveBuildingView = 'RemoveBuildingView',
+  AddBuildingView = 'AddBuildingView',
 }
 
 export default GridEventType;

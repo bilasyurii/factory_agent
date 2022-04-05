@@ -1,10 +1,14 @@
-import Building from './building/building';
+import BuildAction from '../gameplay/player/build-action';
+import DestroyAction from '../gameplay/player/destroy-action';
+import IPlayerActionContext from '../gameplay/player/player-action-context.interface';
 import BuildingFactory from './building/building-factory';
+import BuildingType from './building/building-type.enum';
+import BuildingView from './building/building-view';
 import Grid from './grid/grid';
 import GridEventType from './grid/grid-event-type.enum';
 import WorldLoader from './loading/world-loader';
-import Tile from './tiles/tile';
 import TileFactory from './tiles/tile-factory';
+import TileView from './tiles/tile-view';
 
 export default class World extends Phaser.GameObjects.Container {
   private grid: Grid;
@@ -27,6 +31,22 @@ export default class World extends Phaser.GameObjects.Container {
 
   public getLoader(): WorldLoader {
     return this.loader;
+  }
+
+  public start(): void {
+    const context: IPlayerActionContext = {
+      grid: this.grid,
+      buildingFactory: this.buildingFactory,
+      tileFactory: this.tileFactory,
+    };
+
+    const buildAction = new BuildAction(BuildingType.OilRefinery, 5, 6);
+    buildAction.setContext(context);
+    buildAction.execute();
+
+    const destroyAction = new DestroyAction(5, 6);
+    destroyAction.setContext(context);
+    destroyAction.execute();
   }
 
   private initContainers(): void {
@@ -64,15 +84,25 @@ export default class World extends Phaser.GameObjects.Container {
 
   private setupEvents(): void {
     const grid = this.grid;
-    grid.on(GridEventType.TileAdded, this.onTileAdded, this);
-    grid.on(GridEventType.BuildingAdded, this.onBuildingAdded, this);
+    grid.on(GridEventType.AddTileView, this.addTileView, this);
+    grid.on(GridEventType.RemoveTileView, this.removeTileView, this);
+    grid.on(GridEventType.AddBuildingView, this.addBuildingView, this);
+    grid.on(GridEventType.RemoveBuildingView, this.removeBuildingView, this);
   }
 
-  private onTileAdded(tile: Tile): void {
-    this.tilesLayer.add(tile.getView());
+  private addTileView(tileView: TileView): void {
+    this.tilesLayer.add(tileView);
   }
 
-  private onBuildingAdded(building: Building): void {
-    this.buildingsLayer.add(building.getView());
+  private removeTileView(tileView: TileView): void {
+    this.tilesLayer.remove(tileView);
+  }
+
+  private addBuildingView(buildingView: BuildingView): void {
+    this.buildingsLayer.add(buildingView);
+  }
+
+  private removeBuildingView(buildingView: BuildingView): void {    
+    this.buildingsLayer.remove(buildingView);
   }
 }

@@ -19,9 +19,12 @@ export default class TileView extends Phaser.GameObjects.Sprite {
 
   public updatePosition(): void {
     const tile = this.tile;
-    this.setPosition(
-      TilePos(tile.getX()),
-      TilePos(tile.getY())
-    );
+
+    if (tile) {
+      this.setPosition(
+        TilePos(tile.getX()),
+        TilePos(tile.getY())
+      );
+    }
   }
 }

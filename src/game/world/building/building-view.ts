@@ -19,9 +19,12 @@ export default class BuildingView extends Phaser.GameObjects.Sprite {
 
   public updatePosition(): void {
     const building = this.building;
-    this.setPosition(
-      TilePos(building.getX()),
-      TilePos(building.getY())
-    );
+
+    if (building && this.building.getTile()) {
+      this.setPosition(
+        TilePos(building.getX()),
+        TilePos(building.getY())
+      );
+    }
   }
 }

@@ -1,7 +1,7 @@
-import Building from "./building";
-import BuildingSettings from "./building-settings";
-import BuildingType from "./building-type.enum";
-import BuildingView from "./building-view";
+import Building from './building';
+import BuildingSettings from './building-settings';
+import BuildingType from './building-type.enum';
+import BuildingView from './building-view';
 
 export default class BuildingFactory {
   private scene: Scene;

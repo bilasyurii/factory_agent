@@ -1,5 +1,5 @@
-import BuildingType from "../building/building-type.enum";
-import TileType from "../tiles/tile-type.enum";
+import BuildingType from '../building/building-type.enum';
+import TileType from '../tiles/tile-type.enum';
 
 export default interface ILevelConfig {
   size: ILevelSize;

@@ -1,5 +1,5 @@
-import Resource from "./resource"
-import ResourceType from "./resource-type.enum"
+import Resource from './resource"
+import ResourceType from './resource-type.enum"
 
 export default class Resources {
   private static inited: boolean = false;
