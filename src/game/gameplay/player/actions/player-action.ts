@@ -1,6 +1,6 @@
-import BuildingFactory from '../../world/building/building-factory';
-import Grid from '../../world/grid/grid';
-import TileFactory from '../../world/tiles/tile-factory';
+import BuildingFactory from '../../../world/building/building-factory';
+import Grid from '../../../world/grid/grid';
+import TileFactory from '../../../world/tiles/tile-factory';
 import IPlayerActionContext from './player-action-context.interface';
 import PlayerActionType from './player-action-type.enum';
 

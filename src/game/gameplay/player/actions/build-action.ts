@@ -1,5 +1,5 @@
-import BuildingType from '../../world/building/building-type.enum';
-import TileType from '../../world/tiles/tile-type.enum';
+import BuildingType from '../../../world/building/building-type.enum';
+import TileType from '../../../world/tiles/tile-type.enum';
 import PlayerAction from './player-action';
 import PlayerActionType from './player-action-type.enum';
 

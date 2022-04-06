@@ -3,6 +3,7 @@ declare global {
   type Container = Phaser.GameObjects.Container;
   type Sprite = Phaser.GameObjects.Sprite;
   type PhaserText = Phaser.GameObjects.Text;
+  type TimerEvent = Phaser.Time.TimerEvent;
 }
 
 export {};
