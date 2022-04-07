@@ -1,9 +1,15 @@
 import Tile from '../tiles/tile';
+import BuildingSettings from './building-settings';
 import BuildingView from './building-view';
 
 export default class Building {
+  protected settings: BuildingSettings;
   protected view: BuildingView = null;
   protected tile: Tile = null;
+
+  constructor(settings: BuildingSettings) {
+    this.settings = settings;
+  }
 
   public getX(): number {
     return this.tile.getX();
@@ -11,6 +17,10 @@ export default class Building {
 
   public getY(): number {
     return this.tile.getY();
+  }
+
+  public getSettings(): BuildingSettings {
+    return this.settings;
   }
 
   public setView(view: BuildingView): void {

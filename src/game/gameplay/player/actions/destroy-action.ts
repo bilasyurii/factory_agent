@@ -1,4 +1,4 @@
-import PlayerAction from './player-action';
+import PlayerAction from './player-action.abstract';
 import PlayerActionType from './player-action-type.enum';
 
 export default class DestroyAction extends PlayerAction {

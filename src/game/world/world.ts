@@ -1,8 +1,6 @@
-import BuildAction from '../gameplay/player/actions/build-action';
-import DestroyAction from '../gameplay/player/actions/destroy-action';
 import IPlayerActionContext from '../gameplay/player/actions/player-action-context.interface';
+import Building from './building/building';
 import BuildingFactory from './building/building-factory';
-import BuildingType from './building/building-type.enum';
 import BuildingView from './building/building-view';
 import Grid from './grid/grid';
 import GridEventType from './grid/grid-event-type.enum';
@@ -33,20 +31,16 @@ export default class World extends Phaser.GameObjects.Container {
     return this.loader;
   }
 
-  public start(): void {
-    const context: IPlayerActionContext = {
+  public getActionContext(): IPlayerActionContext {
+    return {
       grid: this.grid,
       buildingFactory: this.buildingFactory,
       tileFactory: this.tileFactory,
     };
+  }
 
-    const buildAction = new BuildAction(BuildingType.OilRefinery, 5, 6);
-    buildAction.setContext(context);
-    buildAction.execute();
-
-    const destroyAction = new DestroyAction(5, 6);
-    destroyAction.setContext(context);
-    destroyAction.execute();
+  public forEachBuilding(cb: (building: Building) => void, ctx?: any) {
+    this.grid.forEachBuilding(cb, ctx);
   }
 
   private initContainers(): void {
@@ -95,7 +89,7 @@ export default class World extends Phaser.GameObjects.Container {
   }
 
   private removeTileView(tileView: TileView): void {
-    this.tilesLayer.remove(tileView);
+    this.tilesLayer.remove(tileView, true);
   }
 
   private addBuildingView(buildingView: BuildingView): void {
@@ -103,6 +97,6 @@ export default class World extends Phaser.GameObjects.Container {
   }
 
   private removeBuildingView(buildingView: BuildingView): void {    
-    this.buildingsLayer.remove(buildingView);
+    this.buildingsLayer.remove(buildingView, true);
   }
 }

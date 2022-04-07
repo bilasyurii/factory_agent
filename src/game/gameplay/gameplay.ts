@@ -1,14 +1,21 @@
-import GameConfig from "../../config/game-config";
-import Player from "./player/player";
-import AIPlayer from "./player/ai-player";
+import GameConfig from '../../config/game-config';
+import Player from './player/player.abstract';
+import AIPlayer from './player/ai-player';
+import World from '../world/world';
+import IGameplayConfig from './gameplay-config.interface';
+import IPlayerActionContext from './player/actions/player-action-context.interface';
 
 export default class Gameplay {
   private scene: Scene;
+  private world: World;
   private runner: TimerEvent;
   private player: Player;
+  private actionContext: IPlayerActionContext;
 
-  constructor(scene: Scene) {
-    this.scene = scene;
+  constructor(config: IGameplayConfig) {
+    this.scene = config.scene;
+    this.world = config.world;
+    this.actionContext = config.actionContext;
 
     this.initRunner();
     this.initPlayer();
@@ -37,10 +44,12 @@ export default class Gameplay {
     this.processPlayer();
   }
 
-  private processBuildings(): void {}
+  private processBuildings(): void {
+  }
 
   private processPlayer(): void {
     const action = this.player.act();
+    action.setContext(this.actionContext);
     action.execute();
   }
 }

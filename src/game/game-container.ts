@@ -26,11 +26,14 @@ export default class GameContainer extends Phaser.GameObjects.Container {
   }
 
   private initGameplay(): void {
-    this.gameplay = new Gameplay(this.scene);
+    this.gameplay = new Gameplay({
+      scene: this.scene,
+      world: this.world,
+      actionContext: this.world.getActionContext(),
+    });
   }
 
   private start(): void {
-    this.world.start();
     this.gameplay.start();
   }
 }

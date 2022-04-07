@@ -4,6 +4,7 @@ const GameConfig = {
   CanvasId: 'factory_agent',
   TileSize: 50,
   GameplayTickInterval: 1000,
+  StartingMoney: 100,
 };
 
 export default GameConfig;

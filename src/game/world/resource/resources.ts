@@ -30,7 +30,7 @@ export default class Resources {
         type: ResourceType.Coal,
       }),
       new Resource({
-        name: 'IronOre',
+        name: 'Iron ore',
         type: ResourceType.IronOre,
       }),
       new Resource({

@@ -52,56 +52,7 @@ export default class Grid extends Phaser.Events.EventEmitter {
     const view = tile.getView();
 
     if (view) {
-      this.emit(GridEventType.AddTileView, view);
-    }
-  }
-
-  public removeTileAt(x: number, y: number): void {
-    const tiles = this.tiles;
-    const tile = tiles[y][x];
-
-    if (!tile) {
-      return;
-    }
-
-    tiles[y][x] = null;
-
-    this.stopListeningTile(tile);
-
-    const view = tile.getView();
-
-    if (view) {
-      this.emit(GridEventType.RemoveTileView, view);
-    }
-  }
-
-  public addBuilding(building: Building): void {
-    const buildings = this.buildings;
-
-    if (buildings.indexOf(building) !== -1) {
-      return;
-    }
-
-    const x = building.getX();
-    const y = building.getY();
-    const prevBuilding = this.getBuilding(x, y);
-
-    if (prevBuilding && prevBuilding !== building) {
-      this.removeBuildingAt(x, y);
-    }
-
-    buildings.push(building);
-
-    const tile = this.tiles[y][x];
-
-    if (tile) {
-      tile.setBuilding(building);
-    }
-
-    const view = building.getView();
-
-    if (view) {
-      this.emit(GridEventType.AddBuildingView, view);
+      this.addTileView(view);
     }
   }
 
@@ -126,6 +77,10 @@ export default class Grid extends Phaser.Events.EventEmitter {
       this.emit(GridEventType.RemoveBuildingView, view);
     }
   }
+  
+  public forEachBuilding(cb: (building: Building) => void, ctx?: any) {
+    this.buildings.forEach(cb, ctx);
+  }
 
   private initArray(): void {
     const width = this.width;
@@ -143,14 +98,59 @@ export default class Grid extends Phaser.Events.EventEmitter {
     }
   }
 
+  protected removeTileAt(x: number, y: number): void {
+    const tiles = this.tiles;
+    const tile = tiles[y][x];
+
+    if (!tile) {
+      return;
+    }
+
+    tiles[y][x] = null;
+
+    this.stopListeningTile(tile);
+
+    const view = tile.getView();
+
+    if (view) {
+      this.removeTileView(view);
+    }
+  }
+
+  protected addBuilding(building: Building): void {
+    const buildings = this.buildings;
+
+    if (buildings.indexOf(building) !== -1) {
+      return;
+    }
+
+    buildings.push(building);
+
+    const tile = this.tiles[building.getY()][building.getX()];
+
+    if (tile) {
+      tile.setBuilding(building);
+    }
+
+    const view = building.getView();
+
+    if (view) {
+      this.emit(GridEventType.AddBuildingView, view);
+    }
+  }
+
   private listenTile(tile: Tile): void {
     tile.on(TileEventType.AddTileView, this.addTileView, this);
     tile.on(TileEventType.RemoveTileView, this.removeTileView, this);
+    tile.on(TileEventType.AddBuilding, this.addBuilding, this);
+    tile.on(TileEventType.RemoveBuilding, this.removeBuilding, this);
   }
 
   private stopListeningTile(tile: Tile): void {
     tile.off(TileEventType.AddTileView, this.addTileView, this);
     tile.off(TileEventType.RemoveTileView, this.removeTileView, this);
+    tile.off(TileEventType.AddBuilding, this.addBuilding, this);
+    tile.off(TileEventType.RemoveBuilding, this.removeBuilding, this);
   }
 
   private addTileView(view: TileView): void {
@@ -159,5 +159,9 @@ export default class Grid extends Phaser.Events.EventEmitter {
 
   private removeTileView(view: TileView): void {
     this.emit(GridEventType.RemoveTileView, view);
+  }
+
+  private removeBuilding(building: Building): void {
+    this.removeBuildingAt(building.getX(), building.getY());
   }
 }

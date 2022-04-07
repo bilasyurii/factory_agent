@@ -31,11 +31,10 @@ export default class WorldLoader {
     const grid = this.grid;
 
     buildings.forEach((config) => {
-      const building = factory.create(config.type);
       const tile = grid.getTile(config.x, config.y);
+      const building = factory.create(config.type, tile);
 
       tile.setBuilding(building);
-      grid.addBuilding(building);
     });
   }
 

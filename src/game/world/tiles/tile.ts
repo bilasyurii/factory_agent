@@ -67,6 +67,7 @@ export default class Tile extends Phaser.Events.EventEmitter {
     if (prevBuilding !== building) {
       if (prevBuilding) {
         this.building = null;
+        this.emit(TileEventType.RemoveBuilding, prevBuilding);
         prevBuilding.setTile(null);
       }
 
@@ -74,6 +75,7 @@ export default class Tile extends Phaser.Events.EventEmitter {
 
       if (building) {
         building.setTile(this);
+        this.emit(TileEventType.AddBuilding, building);
       }
     }
   }

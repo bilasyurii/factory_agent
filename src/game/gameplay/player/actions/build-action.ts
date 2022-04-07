@@ -1,6 +1,6 @@
 import BuildingType from '../../../world/building/building-type.enum';
 import TileType from '../../../world/tiles/tile-type.enum';
-import PlayerAction from './player-action';
+import PlayerAction from './player-action.abstract';
 import PlayerActionType from './player-action-type.enum';
 
 export default class BuildAction extends PlayerAction {
@@ -31,13 +31,16 @@ export default class BuildAction extends PlayerAction {
   public execute(): void {
     const grid = this.grid;
     const tile = grid.getTile(this.x, this.y);
-    const building = this.buildingFactory.create(this.buildingType);
+    const building = this.buildingFactory.create(this.buildingType, tile);
+
+    if (!building) {
+      return;
+    }
 
     if (tile.getType() !== TileType.Platform) {
       this.tileFactory.setupTile(tile, TileType.Platform);
     }
 
     tile.setBuilding(building);
-    grid.addBuilding(building);
   }
 }
