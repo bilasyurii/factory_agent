@@ -5,7 +5,7 @@ import World from '../world/world';
 import IGameplayConfig from './gameplay-config.interface';
 import IPlayerActionContext from './player/actions/player-action-context.interface';
 import WorldProcessor from './processing/world-processor';
-import ConnectionsProcessor from './processing/connections-processor';
+import ConveyorViewConnectionsProcessor from './processing/conveyor-view-connections-processor';
 import ProcessorType from './processing/processor-type.enum';
 
 export default class Gameplay {
@@ -32,7 +32,7 @@ export default class Gameplay {
   }
 
   private initProcessors(): void {
-    this.addProcessor(new ConnectionsProcessor());
+    this.addProcessor(new ConveyorViewConnectionsProcessor());
   }
 
   private initRunner(): void {
@@ -63,9 +63,14 @@ export default class Gameplay {
   }
 
   private tick(): void {
+    this.preUpdate();
     this.preProcess();
     this.processPlayer();
     this.postProcess();
+  }
+
+  private preUpdate(): void {
+    this.world.getPathfinder().update();
   }
 
   private preProcess(): void {

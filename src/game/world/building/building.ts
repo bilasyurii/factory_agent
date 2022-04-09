@@ -4,7 +4,13 @@ import BuildingSettings from './building-settings';
 import BuildingType from './building-type.enum';
 import BuildingView from './building-view';
 
+export type BuildingId = number;
+
 export default class Building {
+  private static nextId: BuildingId = 0;
+
+  public readonly id: BuildingId = Building.nextId++;
+
   protected settings: BuildingSettings;
   protected view: BuildingView = null;
   protected tile: Tile = null;

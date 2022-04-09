@@ -1,6 +1,6 @@
-import ResourceItem from "./resource-item";
-import ResourceType from "./resource-type.enum";
-import Resources from "./resources";
+import ResourceItem from './resource-item';
+import ResourceType from './resource-type.enum';
+import Resources from './resources';
 
 export default class ResourceBunch {
   private lookup: Record<ResourceType, ResourceItem> = <any>{};

@@ -10,6 +10,5 @@ export default class AIPlayer extends Player {
 
   public act(): PlayerAction {
     return new BuildAction(BuildingType.Conveyor, ~~(Math.random() * 10), ~~(Math.random() * 10));
-    // return new BuildAction(BuildingType.OilRefinery, 3, 2);
   }
 }

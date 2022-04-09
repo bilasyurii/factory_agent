@@ -8,7 +8,7 @@ interface IConnection {
   direction: Vector2;
 }
 
-export default class ConnectionsProcessor extends WorldProcessor {
+export default class ConveyorViewConnectionsProcessor extends WorldProcessor {
   private connections: IConnection[] = [];
 
   constructor() {

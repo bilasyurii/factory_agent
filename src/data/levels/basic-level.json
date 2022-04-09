@@ -35,6 +35,21 @@
       "type": "OilDerrick",
       "x": 4,
       "y": 5
+    },
+    {
+      "type": "Conveyor",
+      "x": 5,
+      "y": 5
+    },
+    {
+      "type": "Conveyor",
+      "x": 5,
+      "y": 6
+    },
+    {
+      "type": "OilDerrick",
+      "x": 5,
+      "y": 7
     }
   ]
 }

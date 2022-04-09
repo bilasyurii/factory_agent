@@ -19,11 +19,21 @@ export default class Grid extends Phaser.Events.EventEmitter {
     this.scene = scene;
     this.width = config.width;
     this.height = config.height;
+
     this.initArray();
   }
 
+  public getWidth(): number {
+    return this.width;
+  }
+
+  public getHeight(): number {
+    return this.height;
+  }
+
   public getTile(x: number, y: number): Tile {
-    return this.tiles[y][x];
+    const row = this.tiles[y];
+    return row ? row[x] || null : null;
   }
 
   public getBuilding(x: number, y: number): Building {
@@ -72,19 +82,7 @@ export default class Grid extends Phaser.Events.EventEmitter {
   }
 
   private initArray(): void {
-    const width = this.width;
-    const height = this.height;
-    const tiles: Tile[][] = [];
-    this.tiles = tiles;
-
-    for (let i = 0; i < height; ++i) {
-      const row: Tile[] = [];
-      tiles.push(row);
-
-      for (let j = 0; j < width; ++j) {
-        row.push(null);
-      }
-    }
+    this.tiles = ArrayUtils.initArray<Tile>(this.width, this.height, null);
   }
 
   protected removeTileAt(x: number, y: number): void {
