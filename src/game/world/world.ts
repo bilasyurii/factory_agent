@@ -43,6 +43,10 @@ export default class World extends Phaser.GameObjects.Container {
     this.grid.forEachBuilding(cb, ctx);
   }
 
+  public getBuildingAt(x: number, y: number): Building {
+    return this.grid.getBuilding(x, y);
+  }
+
   private initContainers(): void {
     this.tilesLayer = new Phaser.GameObjects.Container(this.scene);
     this.buildingsLayer = new Phaser.GameObjects.Container(this.scene);

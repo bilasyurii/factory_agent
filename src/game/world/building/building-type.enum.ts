@@ -1,4 +1,5 @@
 enum BuildingType {
+  Conveyor = 'Conveyor',
   CarsAssembly = 'CarsAssembly',
   ToolsAssembly = 'ToolsAssembly',
   ToysAssembly = 'ToysAssembly',

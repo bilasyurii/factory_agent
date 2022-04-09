@@ -31,6 +31,20 @@ export default class BuildingFactory {
   private setupSettings(): void {
     const settings = [
       new BuildingSettings({
+        name: 'Conveyor',
+        key: 'conveyor_none',
+        type: BuildingType.Conveyor,
+        usage: <any>{
+          [ResourceType.Energy]: 1,
+          [ResourceType.Money]: 1,
+        },
+        gain: <any>{
+        },
+        buildRequirements: [
+          new SolidGroundRequirement(),
+        ],
+      }),
+      new BuildingSettings({
         name: 'Oil Refinery',
         key: 'refinery_oil',
         type: BuildingType.OilRefinery,

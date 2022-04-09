@@ -27,7 +27,13 @@ export default class Grid extends Phaser.Events.EventEmitter {
   }
 
   public getBuilding(x: number, y: number): Building {
-    const tile = this.tiles[y][x];
+    const row = this.tiles[y];
+
+    if (!row) {
+      return null;
+    }
+
+    const tile = row[x];
     return tile ? tile.getBuilding() : null;
   }
 
@@ -58,24 +64,7 @@ export default class Grid extends Phaser.Events.EventEmitter {
 
   public removeBuildingAt(x: number, y: number): void {
     const building = this.getBuilding(x, y);
-
-    if (!building) {
-      return;
-    }
-
-    const tile = building.getTile();
-    
-    if (tile) {
-      tile.setBuilding(null);
-    }
-
-    ArrayUtils.removeFirst(this.buildings, building);
-
-    const view = building.getView();
-
-    if (view) {
-      this.emit(GridEventType.RemoveBuildingView, view);
-    }
+    this.removeBuilding(building);
   }
   
   public forEachBuilding(cb: (building: Building) => void, ctx?: any) {
@@ -162,6 +151,22 @@ export default class Grid extends Phaser.Events.EventEmitter {
   }
 
   private removeBuilding(building: Building): void {
-    this.removeBuildingAt(building.getX(), building.getY());
+    if (!building) {
+      return;
+    }
+
+    const tile = building.getTile();
+    
+    if (tile) {
+      tile.setBuilding(null);
+    }
+
+    ArrayUtils.removeFirst(this.buildings, building);
+
+    const view = building.getView();
+
+    if (view) {
+      this.emit(GridEventType.RemoveBuildingView, view);
+    }
   }
 }

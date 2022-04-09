@@ -1,14 +1,19 @@
+import ResourceBunch from '../resource/resource-bunch';
 import Tile from '../tiles/tile';
 import BuildingSettings from './building-settings';
+import BuildingType from './building-type.enum';
 import BuildingView from './building-view';
 
 export default class Building {
   protected settings: BuildingSettings;
   protected view: BuildingView = null;
   protected tile: Tile = null;
+  protected resources: ResourceBunch;
 
   constructor(settings: BuildingSettings) {
     this.settings = settings;
+
+    this.initResources();
   }
 
   public getX(): number {
@@ -21,6 +26,10 @@ export default class Building {
 
   public getSettings(): BuildingSettings {
     return this.settings;
+  }
+
+  public getType(): BuildingType {
+    return this.settings.type;
   }
 
   public setView(view: BuildingView): void {
@@ -69,5 +78,13 @@ export default class Building {
 
   public getTile(): Tile {
     return this.tile;
+  }
+
+  public getResources(): ResourceBunch {
+    return this.resources;
+  }
+
+  protected initResources(): void {
+    this.resources = new ResourceBunch();
   }
 }
