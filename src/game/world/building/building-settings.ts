@@ -1,3 +1,4 @@
+import ObjectUtils from '../../../utils/object-utils';
 import ResourceType from '../resource/resource-type.enum';
 import Tile from '../tiles/tile';
 import Building from './building';
@@ -24,8 +25,8 @@ export default class BuildingSettings {
     this.type = config.type;
     this.startingViewKey = config.key;
 
-    this.copyDistribution(config.usage, this.usage);
-    this.copyDistribution(config.gain, this.gain);
+    ObjectUtils.copy(config.usage, this.usage);
+    ObjectUtils.copy(config.gain, this.gain);
 
     this.buildRequirements = config.buildRequirements || [];
     this.workRequirements = config.workRequirements || [];
@@ -48,14 +49,6 @@ export default class BuildingSettings {
   public checkWorkRequirements(building: Building): boolean {
     this.building = building;
     return this.workRequirements.every(this.checkRequirement, this);
-  }
-
-  private copyDistribution(from: ResourceDistribution, to: ResourceDistribution): void {
-    for (const type in from) {
-      if (Object.prototype.hasOwnProperty.call(from, type)) {
-        to[<ResourceType>type] = from[<ResourceType>type];
-      }
-    }
   }
 
   protected checkRequirement(requirement: BuildingRequirement): boolean {

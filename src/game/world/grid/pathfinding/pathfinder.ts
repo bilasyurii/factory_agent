@@ -21,6 +21,17 @@ export default class Pathfinder {
     this.dirty = true;
   }
 
+  public getPathLength(from: Building, to: Building): number {
+    const pathsFrom = this.paths[from.id];
+
+    if (pathsFrom) {
+      const pathLength = pathsFrom[to.id];
+      return pathLength === undefined ? Infinity : pathLength;
+    }
+
+    return Infinity;
+  }
+
   public update(): void {
     if (!this.dirty) {
       return;

@@ -7,6 +7,7 @@ import IPlayerActionContext from './player/actions/player-action-context.interfa
 import WorldProcessor from './processing/world-processor';
 import ConveyorViewConnectionsProcessor from './processing/conveyor-view-connections-processor';
 import ProcessorType from './processing/processor-type.enum';
+import ResourceDistributionProcessor from './processing/resource-distribution-processor';
 
 export default class Gameplay {
   private scene: Scene;
@@ -33,6 +34,7 @@ export default class Gameplay {
 
   private initProcessors(): void {
     this.addProcessor(new ConveyorViewConnectionsProcessor());
+    this.addProcessor(new ResourceDistributionProcessor());
   }
 
   private initRunner(): void {

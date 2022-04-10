@@ -27,6 +27,21 @@
         "type": "Platform",
         "x": 4,
         "y": 5
+      },
+      {
+        "type": "Platform",
+        "x": 5,
+        "y": 5
+      },
+      {
+        "type": "Platform",
+        "x": 5,
+        "y": 6
+      },
+      {
+        "type": "Platform",
+        "x": 5,
+        "y": 7
       }
     ]
   },
@@ -47,7 +62,7 @@
       "y": 6
     },
     {
-      "type": "OilDerrick",
+      "type": "OilRefinery",
       "x": 5,
       "y": 7
     }
