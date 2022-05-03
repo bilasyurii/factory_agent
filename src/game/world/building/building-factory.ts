@@ -40,6 +40,8 @@ export default class BuildingFactory {
         },
         gain: <any>{
         },
+        maxProductionCount: 1,
+        canExceedUsage: false,
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -56,6 +58,7 @@ export default class BuildingFactory {
         gain: <any>{
           [ResourceType.Fuel]: 1,
         },
+        canExceedUsage: true,
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -70,6 +73,19 @@ export default class BuildingFactory {
         gain: <any>{
           [ResourceType.Oil]: 1,
         },
+        canExceedUsage: true,
+        buildRequirements: [
+          new SolidGroundRequirement(),
+        ],
+      }),
+      new BuildingSettings({
+        name: 'Storage',
+        key: 'storage',
+        type: BuildingType.Storage,
+        usage: <any>{},
+        maxProductionCount: 1,
+        canExceedUsage: false,
+        gain: <any>{},
         buildRequirements: [
           new SolidGroundRequirement(),
         ],

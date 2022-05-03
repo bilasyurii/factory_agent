@@ -30,6 +30,10 @@ export default class Building {
     return this.tile.getY();
   }
 
+  public getPosition(): Vector2 {
+    return this.tile.getPosition();
+  }
+
   public getSettings(): BuildingSettings {
     return this.settings;
   }

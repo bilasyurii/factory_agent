@@ -15,4 +15,13 @@ export default class ResourceItem {
   public setAmount(amount: number): void {
     this.amount = amount;
   }
+
+  public addAmount(amount: number): void {
+    this.amount += amount;
+  }
+
+  public subtractAmount(amount: number): void {
+    const newAmount = this.amount - amount;
+    this.amount = (newAmount < 0.01 ? 0 : newAmount);
+  }
 }

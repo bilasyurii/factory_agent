@@ -81,6 +81,12 @@ export default class Grid extends Phaser.Events.EventEmitter {
     this.buildings.forEach(cb, ctx);
   }
 
+  public getBuildingById(id: number): Building {
+    return this.buildings.find(function (building) {
+      return building.id === id;
+    });
+  }
+
   private initArray(): void {
     this.tiles = ArrayUtils.initArray<Tile>(this.width, this.height, null);
   }

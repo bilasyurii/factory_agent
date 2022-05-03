@@ -1,5 +1,6 @@
 import ObjectUtils from '../../../utils/object-utils';
 import Building from '../../world/building/building';
+import BuildingType from '../../world/building/building-type.enum';
 import ResourceType from '../../world/resource/resource-type.enum';
 import Resources from '../../world/resource/resources';
 import ProcessorType from './processor-type.enum';
@@ -9,11 +10,14 @@ interface IResourceOrder {
   destination: Building;
   amount: number;
   distance: number;
+  weightedAmount: number;
 }
 
 interface IResourceOffer {
   supplier: Building;
   amount: number;
+  ordersWeightedSum: number;
+  ordersSum: number;
   orders: IResourceOrder[];
 }
 
@@ -29,6 +33,8 @@ export default class ResourceDistributionProcessor extends WorldProcessor {
     this.reset();
     this.createOffers();
     this.placeOrders();
+    this.distributeOffers();
+    this.distributeNonTransportableResources();
   }
 
   private reset(): void {
@@ -48,11 +54,78 @@ export default class ResourceDistributionProcessor extends WorldProcessor {
   }
 
   private createOffers(): void {
-    this.world.forEachBuilding(this.createBuildingOffers, this);
+    this.iterate(this.createBuildingOffers);
   }
 
   private placeOrders(): void {
-    this.world.forEachBuilding(this.placeBuildingOrders, this);
+    this.iterate(this.placeBuildingOrders);
+  }
+
+  private distributeOffers(): void {
+    const transportation = this.transportations;
+    const pathfinder = this.world.getPathfinder();
+
+    ObjectUtils.forInObject<ResourceType, IResourceOffer[]>(this.transportableOffers, function (resourceType, offers) {
+      offers.forEach(function (offer) {
+        const { amount, orders, supplier, ordersSum, ordersWeightedSum } = offer;
+        const amountLeft = amount - ordersSum;
+        const canFulfillAll = (amountLeft >= 0);
+        const amountCoefficient = amount / ordersWeightedSum;
+
+        orders.forEach(function (order) {
+          transportation.add({
+            source: supplier,
+            destination: order.destination,
+            distance: order.distance,
+            amount: canFulfillAll ? order.amount : order.weightedAmount * amountCoefficient,
+            resourceType,
+            transportable: true,
+          });
+        });
+
+        if (canFulfillAll) {
+          const storage = pathfinder.getClosestByType(supplier, BuildingType.Storage);
+
+          if (!storage) {
+            return;
+          }
+
+          transportation.add({
+            source: supplier,
+            destination: storage,
+            distance: 0,
+            amount: amountLeft,
+            resourceType,
+            transportable: true,
+          });
+        }
+      });
+    });
+  }
+
+  private distributeNonTransportableResources(): void {
+    const transportation = this.transportations;
+    const playerResources = this.player.getNonTransportableResources();
+
+    ObjectUtils.forInObject<ResourceType, IResourceOrder[]>(this.nonTransportableOrders, function (resourceType, orders) {
+      const available = playerResources.getAmount(resourceType);
+      const amountSum = orders.reduce(function (previous, current) {
+        return previous + current.amount;
+      }, 0);
+      const amountCoefficient = available / amountSum;
+
+      orders.forEach(function (order) {
+        const amount = order.amount;
+        transportation.add({
+          source: null,
+          destination: order.destination,
+          distance: 0,
+          amount: Math.min(amount, amount * amountCoefficient),
+          resourceType,
+          transportable: false,
+        });
+      });
+    });
   }
 
   private createBuildingOffers(building: Building): void {
@@ -73,6 +146,8 @@ export default class ResourceDistributionProcessor extends WorldProcessor {
         transportableOffers[resourceType].push({
           supplier: building,
           amount: available,
+          ordersSum: 0,
+          ordersWeightedSum: 0,
           orders: [],
         });
       }
@@ -99,6 +174,7 @@ export default class ResourceDistributionProcessor extends WorldProcessor {
           destination: building,
           amount: usage,
           distance: 0,
+          weightedAmount: usage,
         });
         return;
       }
@@ -108,11 +184,16 @@ export default class ResourceDistributionProcessor extends WorldProcessor {
 
       for (let i = 0; i < count; ++i) {
         const offer = resourceOffers[i];
+        const distance = pathfinder.getPathLength(offer.supplier, building);
+        const weightedAmount = usage / distance;
         offer.orders.push({
           destination: building,
           amount: usage,
-          distance: pathfinder.getPathLength(offer.supplier, building),
+          distance,
+          weightedAmount,
         });
+        offer.ordersSum += usage;
+        offer.ordersWeightedSum += weightedAmount;
       }
     });
   }

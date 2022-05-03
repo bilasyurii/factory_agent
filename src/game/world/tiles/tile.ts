@@ -26,6 +26,10 @@ export default class Tile extends Phaser.Events.EventEmitter {
     return this.y;
   }
 
+  public getPosition(): Vector2 {
+    return new Phaser.Math.Vector2(this.x, this.y);
+  }
+
   public setPosition(x: number, y: number): void {
     this.x = x;
     this.y = y;

@@ -1,4 +1,5 @@
 import ArrayUtils from '../../../../utils/array-utils';
+import ObjectUtils from '../../../../utils/object-utils';
 import Building, { BuildingId } from '../../building/building';
 import BuildingType from '../../building/building-type.enum';
 import Tile from '../../tiles/tile';
@@ -30,6 +31,27 @@ export default class Pathfinder {
     }
 
     return Infinity;
+  }
+
+  public getClosestByType(from: Building, toType: BuildingType): Building {
+    const grid = this.grid;
+    let closestDistance: number = Infinity;
+    let closestBuilding: Building = null;
+
+    ObjectUtils.forInObject<string, number>(this.paths[from.id], function (id, distance) {
+      const building = grid.getBuildingById(parseInt(id));
+
+      if (building.getType() !== toType) {
+        return;
+      }
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestBuilding = building;
+      }
+    });
+
+    return closestBuilding;
   }
 
   public update(): void {

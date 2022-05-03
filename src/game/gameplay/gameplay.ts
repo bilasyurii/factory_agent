@@ -8,13 +8,20 @@ import WorldProcessor from './processing/world-processor';
 import ConveyorViewConnectionsProcessor from './processing/conveyor-view-connections-processor';
 import ProcessorType from './processing/processor-type.enum';
 import ResourceDistributionProcessor from './processing/resource-distribution-processor';
+import ResourceProductionProcessor from './processing/resource-production-processor';
+import IWorldProcessorConfig from './processing/world-processor-config.interface';
+import TransportationManager from './transportation/transportation-manager';
+import TransportationProcessor from './processing/transportation-processor';
+import ResourceType from '../world/resource/resource-type.enum';
 
 export default class Gameplay {
   private scene: Scene;
   private world: World;
   private runner: TimerEvent;
   private player: Player;
+  private transportations: TransportationManager;
   private actionContext: IPlayerActionContext;
+  private processorConfig: IWorldProcessorConfig;
   private preprocessors: WorldProcessor[] = [];
   private postprocessors: WorldProcessor[] = [];
 
@@ -23,18 +30,15 @@ export default class Gameplay {
     this.world = config.world;
     this.actionContext = config.actionContext;
 
-    this.initProcessors();
     this.initRunner();
     this.initPlayer();
+    this.initTransportationManager();
+    this.initProcessorConfig(); 
+    this.initProcessors();
   }
 
   public start(): void {
     this.runner.paused = false;
-  }
-
-  private initProcessors(): void {
-    this.addProcessor(new ConveyorViewConnectionsProcessor());
-    this.addProcessor(new ResourceDistributionProcessor());
   }
 
   private initRunner(): void {
@@ -51,8 +55,27 @@ export default class Gameplay {
     this.player = new AIPlayer();
   }
 
+  private initTransportationManager(): void {
+    this.transportations = new TransportationManager();
+  }
+
+  private initProcessorConfig(): void {
+    this.processorConfig  = {
+      world: this.world,
+      player: this.player,
+      transportations: this.transportations,
+    };
+  }
+
+  private initProcessors(): void {
+    this.addProcessor(new ConveyorViewConnectionsProcessor());
+    this.addProcessor(new ResourceDistributionProcessor());
+    this.addProcessor(new TransportationProcessor());
+    this.addProcessor(new ResourceProductionProcessor());
+  }
+
   private addProcessor(processor: WorldProcessor): void {
-    processor.setWorld(this.world);
+    processor.setup(this.processorConfig);
 
     switch (processor.type) {
       case ProcessorType.Preprocessor:
@@ -69,6 +92,10 @@ export default class Gameplay {
     this.preProcess();
     this.processPlayer();
     this.postProcess();
+    console.log(this.player.getNonTransportableResources().toString());
+    console.log(this.world.getBuildingAt(4, 5).getResources().toString());
+    console.log(this.world.getBuildingAt(5, 7).getResources().toString());
+    console.warn(this.world.getBuildingAt(7, 5).getResources().toString());
   }
 
   private preUpdate(): void {

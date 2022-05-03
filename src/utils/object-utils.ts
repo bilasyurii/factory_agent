@@ -16,4 +16,12 @@ export default class ObjectUtils {
       }
     }
   }
+
+  public static forInObject<K, V>(object: any, callback: (key: K, value: V) => void, ctx?: any): void {
+    for (const key in object) {
+      if (Object.prototype.hasOwnProperty.call(object, key)) {
+        callback.call(ctx, (<K><any>key), (<V><any>object[key]));
+      }
+    }
+  }
 }

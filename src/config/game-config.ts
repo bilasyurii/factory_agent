@@ -5,6 +5,8 @@ const GameConfig = {
   TileSize: 50,
   GameplayTickInterval: 300,
   StartingMoney: 100,
+  StartingEnergy: 100,
+  Debug: false,
 };
 
 export default GameConfig;

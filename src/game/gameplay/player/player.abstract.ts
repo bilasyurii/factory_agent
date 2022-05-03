@@ -1,22 +1,25 @@
 import GameConfig from '../../../config/game-config';
-import ResourceItem from '../../world/resource/resource-item';
+import ResourceBunch from '../../world/resource/resource-bunch';
 import ResourceType from '../../world/resource/resource-type.enum';
-import Resources from '../../world/resource/resources';
 import PlayerAction from './actions/player-action.abstract';
 
 export default abstract class Player {
-  protected money: ResourceItem;
+  protected nonTransportableResources: ResourceBunch;
 
   constructor() {
-    this.initMoney();
+    this.initResources();
   }
 
   public abstract act(): PlayerAction;
 
-  protected initMoney(): void {
-    const resource = Resources.get(ResourceType.Money);
-    const money = new ResourceItem(resource);
-    this.money = money;
-    money.setAmount(GameConfig.StartingMoney);
+  public getNonTransportableResources(): ResourceBunch {
+    return this.nonTransportableResources;
+  }
+
+  protected initResources(): void {
+    const nonTransportableResources = new ResourceBunch();
+    this.nonTransportableResources = nonTransportableResources;
+    nonTransportableResources.setAmount(ResourceType.Money, GameConfig.StartingMoney);
+    nonTransportableResources.setAmount(ResourceType.Energy, GameConfig.StartingEnergy);
   }
 }

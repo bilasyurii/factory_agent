@@ -10,6 +10,8 @@ export default class BuildingSettings {
   public readonly name: string;
   public readonly type: BuildingType;
   public readonly startingViewKey: string;
+  public readonly maxProductionCount: number;
+  public readonly canExceedUsage: boolean;
 
   protected usage: ResourceDistribution = <any>{};
   protected gain: ResourceDistribution = <any>{};
@@ -24,6 +26,8 @@ export default class BuildingSettings {
     this.name = config.name;
     this.type = config.type;
     this.startingViewKey = config.key;
+    this.maxProductionCount = config.maxProductionCount || 3;
+    this.canExceedUsage = config.canExceedUsage;
 
     ObjectUtils.copy(config.usage, this.usage);
     ObjectUtils.copy(config.gain, this.gain);
