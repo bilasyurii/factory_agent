@@ -1,7 +1,7 @@
-import GameConfig from "../../../config/game-config";
-import Building from "../../world/building/building";
-import ResourceType from "../../world/resource/resource-type.enum";
-import ITransportationConfig from "./transportation-config.interface";
+import GameConfig from '../../../config/game-config';
+import Building from '../../world/building/building';
+import ResourceType from '../../world/resource/resource-type.enum';
+import ITransportationConfig from './transportation-config.interface';
 
 export default class Transportation {
   public source: Building;

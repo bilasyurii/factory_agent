@@ -1,5 +1,5 @@
-import Building from "../../world/building/building";
-import ResourceType from "../../world/resource/resource-type.enum";
+import Building from '../../world/building/building';
+import ResourceType from '../../world/resource/resource-type.enum';
 
 export default interface ITransportationConfig {
   source: Building;

@@ -1,5 +1,5 @@
-import Transportation from "./transportation";
-import ITransportationConfig from "./transportation-config.interface";
+import Transportation from './transportation';
+import ITransportationConfig from './transportation-config.interface';
 
 export default class TransportationManager {
   private transportations: Transportation[] = [];

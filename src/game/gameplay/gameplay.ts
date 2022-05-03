@@ -12,13 +12,15 @@ import ResourceProductionProcessor from './processing/resource-production-proces
 import IWorldProcessorConfig from './processing/world-processor-config.interface';
 import TransportationManager from './transportation/transportation-manager';
 import TransportationProcessor from './processing/transportation-processor';
-import ResourceType from '../world/resource/resource-type.enum';
+import Market from './market/market';
+import ResourceSellingProcessor from './processing/resource-selling-processor';
 
 export default class Gameplay {
   private scene: Scene;
   private world: World;
   private runner: TimerEvent;
   private player: Player;
+  private market: Market;
   private transportations: TransportationManager;
   private actionContext: IPlayerActionContext;
   private processorConfig: IWorldProcessorConfig;
@@ -32,6 +34,7 @@ export default class Gameplay {
 
     this.initRunner();
     this.initPlayer();
+    this.initMarket();
     this.initTransportationManager();
     this.initProcessorConfig(); 
     this.initProcessors();
@@ -55,6 +58,10 @@ export default class Gameplay {
     this.player = new AIPlayer();
   }
 
+  private initMarket(): void {
+    this.market = new Market();
+  }
+
   private initTransportationManager(): void {
     this.transportations = new TransportationManager();
   }
@@ -63,6 +70,7 @@ export default class Gameplay {
     this.processorConfig  = {
       world: this.world,
       player: this.player,
+      market: this.market,
       transportations: this.transportations,
     };
   }
@@ -72,6 +80,7 @@ export default class Gameplay {
     this.addProcessor(new ResourceDistributionProcessor());
     this.addProcessor(new TransportationProcessor());
     this.addProcessor(new ResourceProductionProcessor());
+    this.addProcessor(new ResourceSellingProcessor());
   }
 
   private addProcessor(processor: WorldProcessor): void {
@@ -93,8 +102,6 @@ export default class Gameplay {
     this.processPlayer();
     this.postProcess();
     console.log(this.player.getNonTransportableResources().toString());
-    console.log(this.world.getBuildingAt(4, 5).getResources().toString());
-    console.log(this.world.getBuildingAt(5, 7).getResources().toString());
     console.warn(this.world.getBuildingAt(7, 5).getResources().toString());
   }
 

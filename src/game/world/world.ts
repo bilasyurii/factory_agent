@@ -1,6 +1,7 @@
 import IPlayerActionContext from '../gameplay/player/actions/player-action-context.interface';
 import Building from './building/building';
 import BuildingFactory from './building/building-factory';
+import BuildingType from './building/building-type.enum';
 import BuildingView from './building/building-view';
 import Grid from './grid/grid';
 import GridEventType from './grid/grid-event-type.enum';
@@ -52,6 +53,10 @@ export default class World extends Phaser.GameObjects.Container {
 
   public getBuildingAt(x: number, y: number): Building {
     return this.grid.getBuilding(x, y);
+  }
+
+  public getBuildingsByType(type: BuildingType): Building[] {
+    return this.grid.getBuildingsByType(type);
   }
 
   private initContainers(): void {

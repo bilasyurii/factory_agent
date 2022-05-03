@@ -1,5 +1,6 @@
 import ArrayUtils from '../../../utils/array-utils';
 import Building from '../building/building';
+import BuildingType from '../building/building-type.enum';
 import Tile from '../tiles/tile';
 import TileEventType from '../tiles/tile-event-type.enum';
 import TileView from '../tiles/tile-view';
@@ -84,6 +85,12 @@ export default class Grid extends Phaser.Events.EventEmitter {
   public getBuildingById(id: number): Building {
     return this.buildings.find(function (building) {
       return building.id === id;
+    });
+  }
+
+  public getBuildingsByType(type: BuildingType): Building[] {
+    return this.buildings.filter(function (building) {
+      return building.getType() === type;
     });
   }
 
