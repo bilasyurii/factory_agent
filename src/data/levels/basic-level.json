@@ -167,6 +167,11 @@
       "y": 7
     },
     {
+      "type": "ToysAssembly",
+      "x": 2,
+      "y": 7
+    },
+    {
       "type": "Conveyor",
       "x": 5,
       "y": 5

@@ -184,6 +184,22 @@ export default class BuildingFactory {
           new SolidGroundRequirement(),
         ],
       }),
+      new BuildingSettings({
+        name: 'Toys Assembly',
+        key: 'assembly_toys',
+        type: BuildingType.ToysAssembly,
+        usage: <any>{
+          [ResourceType.Money]: 2,
+          [ResourceType.Energy]: 2,
+          [ResourceType.Plastic]: 1,
+        },
+        gain: <any>{
+          [ResourceType.Toys]: 1,
+        },
+        buildRequirements: [
+          new SolidGroundRequirement(),
+        ],
+      }),
     ];
 
     settings.forEach((setting) => this.addSetting(setting));
