@@ -6,7 +6,10 @@ const GameConfig = {
   GameplayTickInterval: 300,
   StartingMoney: 100,
   StartingEnergy: 100,
-  Debug: false,
+  DebugTransportation: false,
+  DebugProduction: false,
+  DebugUsage: false,
+  DebugSelling: false,
 };
 
 export default GameConfig;

@@ -20,8 +20,8 @@ export default class Transportation {
     this.resourceType = config.resourceType;
     this.transportable = config.transportable;
 
-    if (GameConfig.Debug) {
-      console.log(`Transportation of ${this.amount}x${this.resourceType} from ${this.source ? this.source.id : 'player'} to ${this.destination ? this.destination.id : 'player'}`);
+    if (GameConfig.DebugTransportation) {
+      console.log(`Transportation of ${this.amount}x${this.resourceType} from ${this.source ? this.source.id : 'player'} to ${this.destination ? this.destination.getType() + '_' + this.destination.id : 'player'}`);
     }
   }
 }

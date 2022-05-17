@@ -156,6 +156,7 @@ export default class ResourceDistributionProcessor extends WorldProcessor {
 
   private placeBuildingOrders(building: Building): void {
     const settings = building.getSettings();
+    const buildingResources = building.getResources();
     const transportableOffers = this.transportableOffers;
     const nonTransportableOrders = this.nonTransportableOrders;
     const pathfinder = this.world.getPathfinder();
@@ -168,13 +169,19 @@ export default class ResourceDistributionProcessor extends WorldProcessor {
       }
 
       const resource = Resources.get(resourceType);
+      const buildingResourceAmount = buildingResources.getAmount(resourceType);
+      const amountNeeded = usage - buildingResourceAmount;
+
+      if (amountNeeded <= 0) {
+        return;
+      }
 
       if (!resource.transportable) {
         nonTransportableOrders[resourceType].push({
           destination: building,
-          amount: usage,
+          amount: amountNeeded,
           distance: 0,
-          weightedAmount: usage,
+          weightedAmount: amountNeeded,
         });
         return;
       }
@@ -185,14 +192,14 @@ export default class ResourceDistributionProcessor extends WorldProcessor {
       for (let i = 0; i < count; ++i) {
         const offer = resourceOffers[i];
         const distance = pathfinder.getPathLength(offer.supplier, building);
-        const weightedAmount = usage / distance;
+        const weightedAmount = amountNeeded / distance;
         offer.orders.push({
           destination: building,
-          amount: usage,
+          amount: amountNeeded,
           distance,
           weightedAmount,
         });
-        offer.ordersSum += usage;
+        offer.ordersSum += amountNeeded;
         offer.ordersWeightedSum += weightedAmount;
       }
     });

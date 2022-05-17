@@ -73,16 +73,16 @@ export default class ResourceProductionProcessor extends WorldProcessor {
         const resources = ResourceProductionProcessor.getResources(resourceType, buildingResources, playerNonTransportableResources);
         resources.addAmount(resourceType, gain * productionCount);
 
-        if (GameConfig.Debug) {
-          console.log(`Produced ${gain}x${productionCount}=${gain*productionCount} of ${resourceType} for ${building.id}`);
+        if (GameConfig.DebugProduction) {
+          console.log(`Produced ${gain}x${productionCount}=${gain*productionCount} of ${resourceType} for ${building.getType() + '_' + building.id}`);
         }
       }
 
       if (usage !== 0) {
         buildingResources.subtractAmount(resourceType, usage * productionCount);
 
-        if (GameConfig.Debug) {
-          console.log(`Used ${usage}x${productionCount}=${usage*productionCount} of ${resourceType} for ${building.id}`);
+        if (GameConfig.DebugUsage) {
+          console.log(`Used ${usage}x${productionCount}=${usage*productionCount} of ${resourceType} for ${building.getType() + '_' + building.id}`);
         }
       }
     });

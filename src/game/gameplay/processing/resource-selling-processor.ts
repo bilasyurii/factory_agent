@@ -4,6 +4,7 @@ import WorldProcessor from './world-processor';
 import BuildingType from '../../world/building/building-type.enum';
 import ObjectUtils from '../../../utils/object-utils';
 import ResourceType from '../../world/resource/resource-type.enum';
+import GameConfig from '../../../config/game-config';
 
 export default class ResourceSellingProcessor extends WorldProcessor {
   constructor() {
@@ -20,12 +21,22 @@ export default class ResourceSellingProcessor extends WorldProcessor {
     const market = this.market;
 
     ObjectUtils.forInEnum<ResourceType>(ResourceType, function (resourceType) {
-      const amount = resources.getAmount(resourceType);
+      const amount = ~~resources.getAmount(resourceType);
+
+      if (amount <= 0) {
+        return;
+      }
+
       const price = market.getPrice(resourceType);
+
+      if (price === 0) {
+        return;
+      }
+
       const income = amount * price;
 
-      if (income === 0) {
-        return;
+      if (GameConfig.DebugSelling) {
+        console.log(`Sold ${price}x${amount}=${income} of ${resourceType} for ${building.getType() + '_' + building.id}`);
       }
 
       resources.subtractAmount(resourceType, amount);

@@ -52,6 +52,46 @@
         "type": "Platform",
         "x": 7,
         "y": 5
+      },
+      {
+        "type": "Platform",
+        "x": 6,
+        "y": 4
+      },
+      {
+        "type": "Platform",
+        "x": 6,
+        "y": 3
+      },
+      {
+        "type": "Platform",
+        "x": 7,
+        "y": 4
+      },
+      {
+        "type": "Platform",
+        "x": 4,
+        "y": 6
+      },
+      {
+        "type": "Platform",
+        "x": 3,
+        "y": 6
+      },
+      {
+        "type": "Platform",
+        "x": 2,
+        "y": 6
+      },
+      {
+        "type": "Platform",
+        "x": 1,
+        "y": 6
+      },
+      {
+        "type": "Platform",
+        "x": 4,
+        "y": 7
       }
     ]
   },
@@ -60,6 +100,21 @@
       "type": "OilDerrick",
       "x": 4,
       "y": 5
+    },
+    {
+      "type": "OilRefinery",
+      "x": 5,
+      "y": 7
+    },
+    {
+      "type": "Storage",
+      "x": 7,
+      "y": 5
+    },
+    {
+      "type": "PlasticRefinery",
+      "x": 4,
+      "y": 7
     },
     {
       "type": "Conveyor",
@@ -72,9 +127,9 @@
       "y": 6
     },
     {
-      "type": "OilRefinery",
-      "x": 5,
-      "y": 7
+      "type": "Conveyor",
+      "x": 6,
+      "y": 5
     },
     {
       "type": "Conveyor",
@@ -82,9 +137,29 @@
       "y": 5
     },
     {
-      "type": "Storage",
-      "x": 7,
-      "y": 5
+      "type": "Conveyor",
+      "x": 6,
+      "y": 4
+    },
+    {
+      "type": "Conveyor",
+      "x": 4,
+      "y": 6
+    },
+    {
+      "type": "Conveyor",
+      "x": 3,
+      "y": 6
+    },
+    {
+      "type": "Conveyor",
+      "x": 2,
+      "y": 6
+    },
+    {
+      "type": "Conveyor",
+      "x": 1,
+      "y": 6
     }
   ]
 }

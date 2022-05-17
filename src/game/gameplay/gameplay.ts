@@ -101,8 +101,11 @@ export default class Gameplay {
     this.preProcess();
     this.processPlayer();
     this.postProcess();
-    console.log(this.player.getNonTransportableResources().toString());
-    console.warn(this.world.getBuildingAt(7, 5).getResources().toString());
+    // console.log(this.player.getNonTransportableResources().toString());
+    // console.warn(this.world.getBuildingAt(4, 5).getResources().toString());
+    // console.warn(this.world.getBuildingAt(7, 5).getResources().toString());
+    // console.warn(this.world.getBuildingAt(4, 7).getResources().toString());
+    // console.warn(this.world.getBuildingAt(5, 7).getResources().toString());
   }
 
   private preUpdate(): void {

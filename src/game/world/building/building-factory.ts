@@ -41,7 +41,6 @@ export default class BuildingFactory {
         gain: <any>{
         },
         maxProductionCount: 1,
-        canExceedUsage: false,
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -51,14 +50,29 @@ export default class BuildingFactory {
         key: 'refinery_oil',
         type: BuildingType.OilRefinery,
         usage: <any>{
-          [ResourceType.Oil]: 1,
+          [ResourceType.Oil]: 3,
           [ResourceType.Energy]: 1,
-          [ResourceType.Money]: 1,
+          [ResourceType.Money]: 5,
         },
         gain: <any>{
           [ResourceType.Fuel]: 1,
         },
-        canExceedUsage: true,
+        buildRequirements: [
+          new SolidGroundRequirement(),
+        ],
+      }),
+      new BuildingSettings({
+        name: 'Plastic Refinery',
+        key: 'refinery_plastic',
+        type: BuildingType.PlasticRefinery,
+        usage: <any>{
+          [ResourceType.Oil]: 1,
+          [ResourceType.Energy]: 3,
+          [ResourceType.Money]: 10,
+        },
+        gain: <any>{
+          [ResourceType.Plastic]: 1,
+        },
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -68,12 +82,11 @@ export default class BuildingFactory {
         key: 'derrick_oil',
         type: BuildingType.OilDerrick,
         usage: <any>{
-          [ResourceType.Money]: 1,
+          [ResourceType.Money]: 5,
         },
         gain: <any>{
           [ResourceType.Oil]: 1,
         },
-        canExceedUsage: true,
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -82,10 +95,39 @@ export default class BuildingFactory {
         name: 'Storage',
         key: 'storage',
         type: BuildingType.Storage,
-        usage: <any>{},
+        usage: <any>{
+          [ResourceType.Money]: 1,
+        },
         maxProductionCount: 1,
-        canExceedUsage: false,
         gain: <any>{},
+        buildRequirements: [
+          new SolidGroundRequirement(),
+        ],
+      }),
+      new BuildingSettings({
+        name: 'Coal Mine',
+        key: 'mine_coal',
+        type: BuildingType.CoalMine,
+        usage: <any>{
+          [ResourceType.Money]: 5,
+        },
+        gain: <any>{
+          [ResourceType.Coal]: 1,
+        },
+        buildRequirements: [
+          new SolidGroundRequirement(),
+        ],
+      }),
+      new BuildingSettings({
+        name: 'Iron Mine',
+        key: 'mine_iron',
+        type: BuildingType.IronMine,
+        usage: <any>{
+          [ResourceType.Money]: 5,
+        },
+        gain: <any>{
+          [ResourceType.IronOre]: 1,
+        },
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
