@@ -13,7 +13,7 @@ export default class Market {
 
   private initDefaultPrices(): void {
     const prices = this.prices;
-    prices[ResourceType.Cars] = 100;
+    prices[ResourceType.Cars] = 150;
     prices[ResourceType.Coal] = 10;
     prices[ResourceType.Energy] = 0;
     prices[ResourceType.Fuel] = 30;

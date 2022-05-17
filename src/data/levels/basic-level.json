@@ -162,6 +162,11 @@
       "y": 6
     },
     {
+      "type": "CarsAssembly",
+      "x": 3,
+      "y": 7
+    },
+    {
       "type": "Conveyor",
       "x": 5,
       "y": 5

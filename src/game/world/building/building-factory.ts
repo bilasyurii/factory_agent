@@ -168,6 +168,22 @@ export default class BuildingFactory {
           new SolidGroundRequirement(),
         ],
       }),
+      new BuildingSettings({
+        name: 'Cars Assembly',
+        key: 'assembly_cars',
+        type: BuildingType.CarsAssembly,
+        usage: <any>{
+          [ResourceType.Money]: 8,
+          [ResourceType.Energy]: 15,
+          [ResourceType.Metal]: 4,
+        },
+        gain: <any>{
+          [ResourceType.Cars]: 1,
+        },
+        buildRequirements: [
+          new SolidGroundRequirement(),
+        ],
+      }),
     ];
 
     settings.forEach((setting) => this.addSetting(setting));
