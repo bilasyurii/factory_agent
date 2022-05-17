@@ -92,6 +92,31 @@
         "type": "Platform",
         "x": 4,
         "y": 7
+      },
+      {
+        "type": "Platform",
+        "x": 5,
+        "y": 4
+      },
+      {
+        "type": "Platform",
+        "x": 3,
+        "y": 7
+      },
+      {
+        "type": "Platform",
+        "x": 2,
+        "y": 7
+      },
+      {
+        "type": "Platform",
+        "x": 1,
+        "y": 7
+      },
+      {
+        "type": "Platform",
+        "x": 6,
+        "y": 6
       }
     ]
   },
@@ -115,6 +140,26 @@
       "type": "PlasticRefinery",
       "x": 4,
       "y": 7
+    },
+    {
+      "type": "IronMine",
+      "x": 7,
+      "y": 4
+    },
+    {
+      "type": "CoalMine",
+      "x": 6,
+      "y": 3
+    },
+    {
+      "type": "Furnace",
+      "x": 5,
+      "y": 4
+    },
+    {
+      "type": "ToolsAssembly",
+      "x": 6,
+      "y": 6
     },
     {
       "type": "Conveyor",

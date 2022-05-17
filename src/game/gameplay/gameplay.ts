@@ -47,7 +47,7 @@ export default class Gameplay {
   private initRunner(): void {
     this.runner = this.scene.time.addEvent({
       delay: GameConfig.GameplayTickInterval,
-      loop: true,
+      repeat: 11,
       paused: true,
       callback: this.tick,
       callbackScope: this,
@@ -101,7 +101,7 @@ export default class Gameplay {
     this.preProcess();
     this.processPlayer();
     this.postProcess();
-    // console.log(this.player.getNonTransportableResources().toString());
+    console.log(this.player.getNonTransportableResources().toString());
     // console.warn(this.world.getBuildingAt(4, 5).getResources().toString());
     // console.warn(this.world.getBuildingAt(7, 5).getResources().toString());
     // console.warn(this.world.getBuildingAt(4, 7).getResources().toString());

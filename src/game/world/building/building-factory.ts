@@ -83,6 +83,7 @@ export default class BuildingFactory {
         type: BuildingType.OilDerrick,
         usage: <any>{
           [ResourceType.Money]: 5,
+          [ResourceType.Energy]: 1,
         },
         gain: <any>{
           [ResourceType.Oil]: 1,
@@ -110,6 +111,7 @@ export default class BuildingFactory {
         type: BuildingType.CoalMine,
         usage: <any>{
           [ResourceType.Money]: 5,
+          [ResourceType.Energy]: 1,
         },
         gain: <any>{
           [ResourceType.Coal]: 1,
@@ -124,9 +126,43 @@ export default class BuildingFactory {
         type: BuildingType.IronMine,
         usage: <any>{
           [ResourceType.Money]: 5,
+          [ResourceType.Energy]: 1,
         },
         gain: <any>{
           [ResourceType.IronOre]: 1,
+        },
+        buildRequirements: [
+          new SolidGroundRequirement(),
+        ],
+      }),
+      new BuildingSettings({
+        name: 'Furnace',
+        key: 'furnace',
+        type: BuildingType.Furnace,
+        usage: <any>{
+          [ResourceType.Energy]: 1,
+          [ResourceType.Money]: 2,
+          [ResourceType.IronOre]: 1,
+          [ResourceType.Coal]: 2,
+        },
+        gain: <any>{
+          [ResourceType.Metal]: 2,
+        },
+        buildRequirements: [
+          new SolidGroundRequirement(),
+        ],
+      }),
+      new BuildingSettings({
+        name: 'Tools Assembly',
+        key: 'assembly_tools',
+        type: BuildingType.ToolsAssembly,
+        usage: <any>{
+          [ResourceType.Money]: 10,
+          [ResourceType.Energy]: 10,
+          [ResourceType.Metal]: 2,
+        },
+        gain: <any>{
+          [ResourceType.Tools]: 2,
         },
         buildRequirements: [
           new SolidGroundRequirement(),
