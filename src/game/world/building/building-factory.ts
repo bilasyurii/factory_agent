@@ -9,6 +9,7 @@ import BuildingSettings from './building-settings';
 import BuildingType from './building-type.enum';
 import BuildingView from './building-view';
 import IBuildingRequirementContext from './requirements/building-requirement-context.interface';
+import BuildingTypeInRadiusRequirement from './requirements/building-type-in-radius-requirement';
 import NearShoreRequirement from './requirements/near-shore-requirement';
 import SolidGroundRequirement from './requirements/solid-ground-requirement';
 import WaterRequirement from './requirements/water-requirement';
@@ -315,7 +316,15 @@ export default class BuildingFactory {
         },
         buildRequirements: [
           new SolidGroundRequirement(),
+          new BuildingTypeInRadiusRequirement([
+            BuildingType.PowerPlant,
+          ], 2),
         ],
+        workRequirements: [
+          new BuildingTypeInRadiusRequirement([
+            BuildingType.PowerPlant,
+          ], 2),
+        ]
       }),
     ];
 
