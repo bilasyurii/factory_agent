@@ -14,6 +14,7 @@ import TransportationManager from './transportation/transportation-manager';
 import TransportationProcessor from './processing/transportation-processor';
 import Market from './market/market';
 import ResourceSellingProcessor from './processing/resource-selling-processor';
+import OverheadsSellingProcessor from './processing/overheads-selling-processor';
 
 export default class Gameplay {
   private scene: Scene;
@@ -47,7 +48,7 @@ export default class Gameplay {
   private initRunner(): void {
     this.runner = this.scene.time.addEvent({
       delay: GameConfig.GameplayTickInterval,
-      repeat: 11,
+      loop: true,
       paused: true,
       callback: this.tick,
       callbackScope: this,
@@ -81,6 +82,7 @@ export default class Gameplay {
     this.addProcessor(new TransportationProcessor());
     this.addProcessor(new ResourceProductionProcessor());
     this.addProcessor(new ResourceSellingProcessor());
+    this.addProcessor(new OverheadsSellingProcessor());
   }
 
   private addProcessor(processor: WorldProcessor): void {

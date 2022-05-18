@@ -15,7 +15,7 @@ export default class Market {
     const prices = this.prices;
     prices[ResourceType.Cars] = 150;
     prices[ResourceType.Coal] = 10;
-    prices[ResourceType.Energy] = 0;
+    prices[ResourceType.Energy] = 1;
     prices[ResourceType.Fuel] = 30;
     prices[ResourceType.Heat] = 0;
     prices[ResourceType.IronOre] = 8;

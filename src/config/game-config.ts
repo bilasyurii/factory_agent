@@ -4,7 +4,7 @@ const GameConfig = {
   CanvasId: 'factory_agent',
   TileSize: 50,
   GameplayTickInterval: 300,
-  StartingMoney: 200,
+  StartingMoney: 400,
   StartingEnergy: 200,
   DebugTransportation: false,
   DebugProduction: false,
