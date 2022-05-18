@@ -7,6 +7,7 @@ import Grid from './grid/grid';
 import GridEventType from './grid/grid-event-type.enum';
 import Pathfinder from './grid/pathfinding/pathfinder';
 import WorldLoader from './loading/world-loader';
+import Tile from './tiles/tile';
 import TileFactory from './tiles/tile-factory';
 import TileView from './tiles/tile-view';
 
@@ -55,6 +56,10 @@ export default class World extends Phaser.GameObjects.Container {
     return this.grid.getBuilding(x, y);
   }
 
+  public getTileAt(x: number, y: number): Tile {
+    return this.grid.getTile(x, y);
+  }
+
   public getBuildingsByType(type: BuildingType): Building[] {
     return this.grid.getBuildingsByType(type);
   }
@@ -77,7 +82,7 @@ export default class World extends Phaser.GameObjects.Container {
   }
 
   private initBuildingFactory(): void {
-    this.buildingFactory = new BuildingFactory(this.scene);
+    this.buildingFactory = new BuildingFactory(this.scene, this);
   }
 
   private initTileFactory(): void {

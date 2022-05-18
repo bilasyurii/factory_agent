@@ -4,6 +4,7 @@ import Tile from '../tiles/tile';
 import Building from './building';
 import IBuildingConfig, { ResourceDistribution } from './building-config.interface';
 import BuildingType from './building-type.enum';
+import IBuildingRequirementContext from './requirements/building-requirement-context.interface';
 import BuildingRequirement from './requirements/building-requirement.abstract';
 
 export default class BuildingSettings {
@@ -32,6 +33,15 @@ export default class BuildingSettings {
 
     this.buildRequirements = config.buildRequirements || [];
     this.workRequirements = config.workRequirements || [];
+  }
+
+  public setRequirementsContext(context: IBuildingRequirementContext): void {
+    const setContext = function (requirement: BuildingRequirement) {
+      requirement.setContext(context);
+    };
+
+    this.buildRequirements.forEach(setContext);
+    this.workRequirements.forEach(setContext);
   }
 
   public getUsage(resourceType: ResourceType): number {

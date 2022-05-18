@@ -20,8 +20,23 @@
       },
       {
         "type": "Water",
+        "x": 2,
+        "y": 0
+      },
+      {
+        "type": "Water",
         "x": 0,
         "y": 1
+      },
+      {
+        "type": "Water",
+        "x": 1,
+        "y": 1
+      },
+      {
+        "type": "Water",
+        "x": 0,
+        "y": 2
       },
       {
         "type": "Platform",
@@ -117,6 +132,26 @@
         "type": "Platform",
         "x": 6,
         "y": 6
+      },
+      {
+        "type": "Platform",
+        "x": 1,
+        "y": 5
+      },
+      {
+        "type": "Platform",
+        "x": 1,
+        "y": 4
+      },
+      {
+        "type": "Platform",
+        "x": 1,
+        "y": 3
+      },
+      {
+        "type": "Platform",
+        "x": 1,
+        "y": 2
       }
     ]
   },
@@ -172,6 +207,11 @@
       "y": 7
     },
     {
+      "type": "WaterPump",
+      "x": 1,
+      "y": 1
+    },
+    {
       "type": "Conveyor",
       "x": 5,
       "y": 5
@@ -215,6 +255,26 @@
       "type": "Conveyor",
       "x": 1,
       "y": 6
+    },
+    {
+      "type": "Conveyor",
+      "x": 1,
+      "y": 5
+    },
+    {
+      "type": "Conveyor",
+      "x": 1,
+      "y": 4
+    },
+    {
+      "type": "Conveyor",
+      "x": 1,
+      "y": 3
+    },
+    {
+      "type": "Conveyor",
+      "x": 1,
+      "y": 2
     }
   ]
 }

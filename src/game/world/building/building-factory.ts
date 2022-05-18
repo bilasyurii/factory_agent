@@ -1,17 +1,25 @@
 import ResourceType from '../resource/resource-type.enum';
 import Tile from '../tiles/tile';
+import World from '../world';
 import Building from './building';
 import BuildingSettings from './building-settings';
 import BuildingType from './building-type.enum';
 import BuildingView from './building-view';
+import IBuildingRequirementContext from './requirements/building-requirement-context.interface';
+import NearShoreRequirement from './requirements/near-shore-requirement';
 import SolidGroundRequirement from './requirements/solid-ground-requirement';
+import WaterRequirement from './requirements/water-requirement';
 
 export default class BuildingFactory {
   private scene: Scene;
   private settingsLookup: Record<BuildingType, BuildingSettings> = <any>{};
+  private requirementsContext: IBuildingRequirementContext;
 
-  constructor(scene: Scene) {
+  constructor(scene: Scene, world: World) {
     this.scene = scene;
+    this.requirementsContext = {
+      world,
+    };
 
     this.setupSettings();
   }
@@ -19,6 +27,8 @@ export default class BuildingFactory {
   public create(type: BuildingType, tile: Tile): Building | null {
     const settings = this.settingsLookup[type];
     const building = new Building(settings);
+
+    settings.setRequirementsContext(this.requirementsContext);
 
     if (settings.checkBuildRequirements(building, tile)) {
       building.setView(new BuildingView(this.scene, settings));
@@ -198,6 +208,22 @@ export default class BuildingFactory {
         },
         buildRequirements: [
           new SolidGroundRequirement(),
+        ],
+      }),
+      new BuildingSettings({
+        name: 'Water Pump',
+        key: 'water_pump',
+        type: BuildingType.WaterPump,
+        usage: <any>{
+          [ResourceType.Money]: 3,
+          [ResourceType.Energy]: 3,
+        },
+        gain: <any>{
+          [ResourceType.Water]: 1,
+        },
+        buildRequirements: [
+          new WaterRequirement(),
+          new NearShoreRequirement(),
         ],
       }),
     ];
