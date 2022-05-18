@@ -226,6 +226,37 @@ export default class BuildingFactory {
           new NearShoreRequirement(),
         ],
       }),
+      new BuildingSettings({
+        name: 'Power Plant',
+        key: 'power_plant',
+        type: BuildingType.PowerPlant,
+        usage: <any>{
+          [ResourceType.Money]: 1,
+          [ResourceType.Coal]: 1,
+          [ResourceType.Water]: 1,
+        },
+        gain: <any>{
+          [ResourceType.Heat]: 50,
+        },
+        buildRequirements: [
+          new SolidGroundRequirement(),
+        ],
+      }),
+      new BuildingSettings({
+        name: 'Turbine',
+        key: 'turbine',
+        type: BuildingType.Turbine,
+        usage: <any>{
+          [ResourceType.Money]: 1,
+          [ResourceType.Heat]: 10,
+        },
+        gain: <any>{
+          [ResourceType.Energy]: 20,
+        },
+        buildRequirements: [
+          new SolidGroundRequirement(),
+        ],
+      }),
     ];
 
     settings.forEach((setting) => this.addSetting(setting));

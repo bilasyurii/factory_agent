@@ -152,6 +152,21 @@
         "type": "Platform",
         "x": 1,
         "y": 2
+      },
+      {
+        "type": "Platform",
+        "x": 2,
+        "y": 2
+      },
+      {
+        "type": "Platform",
+        "x": 2,
+        "y": 3
+      },
+      {
+        "type": "Platform",
+        "x": 0,
+        "y": 3
       }
     ]
   },
@@ -210,6 +225,21 @@
       "type": "WaterPump",
       "x": 1,
       "y": 1
+    },
+    {
+      "type": "PowerPlant",
+      "x": 2,
+      "y": 2
+    },
+    {
+      "type": "CoalMine",
+      "x": 2,
+      "y": 3
+    },
+    {
+      "type": "Turbine",
+      "x": 0,
+      "y": 3
     },
     {
       "type": "Conveyor",
