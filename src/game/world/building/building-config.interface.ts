@@ -10,6 +10,7 @@ export default interface IBuildingConfig {
   key: string;
   usage: ResourceDistribution,
   gain: ResourceDistribution,
+  buildPrice: ResourceDistribution,
   maxProductionCount?: number;
   buildRequirements?: BuildingRequirement[],
   workRequirements?: BuildingRequirement[],

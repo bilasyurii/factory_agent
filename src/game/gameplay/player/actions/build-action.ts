@@ -31,7 +31,7 @@ export default class BuildAction extends PlayerAction {
   public execute(): void {
     const grid = this.grid;
     const tile = grid.getTile(this.x, this.y);
-    const building = this.buildingFactory.create(this.buildingType, tile);
+    const building = this.buildingFactory.create(this.buildingType, tile, false);
 
     if (!building) {
       return;

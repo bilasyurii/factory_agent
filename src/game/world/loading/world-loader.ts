@@ -32,7 +32,7 @@ export default class WorldLoader {
 
     buildings.forEach((config) => {
       const tile = grid.getTile(config.x, config.y);
-      const building = factory.create(config.type, tile);
+      const building = factory.create(config.type, tile, true);
 
       tile.setBuilding(building);
     });

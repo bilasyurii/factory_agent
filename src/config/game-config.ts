@@ -10,6 +10,7 @@ const GameConfig = {
   DebugProduction: false,
   DebugUsage: false,
   DebugSelling: false,
+  DebugSpending: true,
 };
 
 export default GameConfig;

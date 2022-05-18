@@ -15,6 +15,7 @@ export default class BuildingSettings {
 
   protected usage: ResourceDistribution = <any>{};
   protected gain: ResourceDistribution = <any>{};
+  protected buildPrice: ResourceDistribution = <any>{};
 
   protected buildRequirements: BuildingRequirement[] = [];
   protected workRequirements: BuildingRequirement[] = [];
@@ -30,6 +31,7 @@ export default class BuildingSettings {
 
     ObjectUtils.copy(config.usage, this.usage);
     ObjectUtils.copy(config.gain, this.gain);
+    ObjectUtils.copy(config.buildPrice, this.buildPrice);
 
     this.buildRequirements = config.buildRequirements || [];
     this.workRequirements = config.workRequirements || [];
@@ -50,6 +52,10 @@ export default class BuildingSettings {
 
   public getGain(resourceType: ResourceType): number {
     return this.gain[resourceType] || 0;
+  }
+
+  public getBuildPrice(resourceType: ResourceType): number {
+    return this.buildPrice[resourceType] || 0;
   }
 
   public checkBuildRequirements(building: Building, tile: Tile): boolean {

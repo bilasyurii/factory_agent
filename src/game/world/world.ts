@@ -42,6 +42,7 @@ export default class World extends Phaser.GameObjects.Container {
 
   public getActionContext(): IPlayerActionContext {
     return {
+      player: null,
       grid: this.grid,
       buildingFactory: this.buildingFactory,
       tileFactory: this.tileFactory,

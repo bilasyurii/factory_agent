@@ -1,3 +1,6 @@
+import GameConfig from '../../../config/game-config';
+import ObjectUtils from '../../../utils/object-utils';
+import ResourceBunch from '../resource/resource-bunch';
 import ResourceType from '../resource/resource-type.enum';
 import Tile from '../tiles/tile';
 import World from '../world';
@@ -14,6 +17,7 @@ export default class BuildingFactory {
   private scene: Scene;
   private settingsLookup: Record<BuildingType, BuildingSettings> = <any>{};
   private requirementsContext: IBuildingRequirementContext;
+  private buildResources: ResourceBunch;
 
   constructor(scene: Scene, world: World) {
     this.scene = scene;
@@ -24,14 +28,28 @@ export default class BuildingFactory {
     this.setupSettings();
   }
 
-  public create(type: BuildingType, tile: Tile): Building | null {
+  public setBuildResources(resources: ResourceBunch): void {
+    this.buildResources = resources;
+  }
+
+  public create(type: BuildingType, tile: Tile, free: boolean): Building | null {
     const settings = this.settingsLookup[type];
+
+    if (!free && !this.checkBuildResources(settings)) {
+      return null;
+    }
+
     const building = new Building(settings);
 
     settings.setRequirementsContext(this.requirementsContext);
 
     if (settings.checkBuildRequirements(building, tile)) {
       building.setView(new BuildingView(this.scene, settings));
+
+      if (!free) {
+        this.spendBuildResources(settings);
+      }
+
       return building;
     }
 
@@ -50,6 +68,9 @@ export default class BuildingFactory {
         },
         gain: <any>{
         },
+        buildPrice: <any>{
+          [ResourceType.Money]: 1,
+        },
         maxProductionCount: 1,
         buildRequirements: [
           new SolidGroundRequirement(),
@@ -67,6 +88,9 @@ export default class BuildingFactory {
         gain: <any>{
           [ResourceType.Fuel]: 1,
         },
+        buildPrice: <any>{
+          [ResourceType.Money]: 10,
+        },
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -83,6 +107,9 @@ export default class BuildingFactory {
         gain: <any>{
           [ResourceType.Plastic]: 1,
         },
+        buildPrice: <any>{
+          [ResourceType.Money]: 10,
+        },
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -98,6 +125,9 @@ export default class BuildingFactory {
         gain: <any>{
           [ResourceType.Oil]: 1,
         },
+        buildPrice: <any>{
+          [ResourceType.Money]: 1,
+        },
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -111,6 +141,9 @@ export default class BuildingFactory {
         },
         maxProductionCount: 1,
         gain: <any>{},
+        buildPrice: <any>{
+          [ResourceType.Money]: 5,
+        },
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -126,6 +159,9 @@ export default class BuildingFactory {
         gain: <any>{
           [ResourceType.Coal]: 1,
         },
+        buildPrice: <any>{
+          [ResourceType.Money]: 1,
+        },
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -140,6 +176,9 @@ export default class BuildingFactory {
         },
         gain: <any>{
           [ResourceType.IronOre]: 1,
+        },
+        buildPrice: <any>{
+          [ResourceType.Money]: 1,
         },
         buildRequirements: [
           new SolidGroundRequirement(),
@@ -158,6 +197,9 @@ export default class BuildingFactory {
         gain: <any>{
           [ResourceType.Metal]: 2,
         },
+        buildPrice: <any>{
+          [ResourceType.Money]: 5,
+        },
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -173,6 +215,9 @@ export default class BuildingFactory {
         },
         gain: <any>{
           [ResourceType.Tools]: 2,
+        },
+        buildPrice: <any>{
+          [ResourceType.Money]: 10,
         },
         buildRequirements: [
           new SolidGroundRequirement(),
@@ -190,6 +235,9 @@ export default class BuildingFactory {
         gain: <any>{
           [ResourceType.Cars]: 1,
         },
+        buildPrice: <any>{
+          [ResourceType.Money]: 20,
+        },
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -206,6 +254,9 @@ export default class BuildingFactory {
         gain: <any>{
           [ResourceType.Toys]: 1,
         },
+        buildPrice: <any>{
+          [ResourceType.Money]: 10,
+        },
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -220,6 +271,9 @@ export default class BuildingFactory {
         },
         gain: <any>{
           [ResourceType.Water]: 1,
+        },
+        buildPrice: <any>{
+          [ResourceType.Money]: 5,
         },
         buildRequirements: [
           new WaterRequirement(),
@@ -238,6 +292,9 @@ export default class BuildingFactory {
         gain: <any>{
           [ResourceType.Heat]: 50,
         },
+        buildPrice: <any>{
+          [ResourceType.Money]: 50,
+        },
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -253,6 +310,9 @@ export default class BuildingFactory {
         gain: <any>{
           [ResourceType.Energy]: 20,
         },
+        buildPrice: <any>{
+          [ResourceType.Money]: 10,
+        },
         buildRequirements: [
           new SolidGroundRequirement(),
         ],
@@ -264,5 +324,48 @@ export default class BuildingFactory {
 
   private addSetting(setting: BuildingSettings): void {
     this.settingsLookup[setting.type] = setting;
+  }
+
+  private checkBuildResources(settings: BuildingSettings): boolean {
+    const resources = this.buildResources;
+    let ok = true;
+
+    ObjectUtils.forInEnum<ResourceType>(ResourceType, function (resourceType) {
+      if (!ok) {
+        return;
+      }
+
+      const amountNeeded = settings.getBuildPrice(resourceType);
+
+      if (amountNeeded <= 0) {
+        return;
+      }
+
+      const amountAvailable = resources.getAmount(resourceType);
+
+      if (amountAvailable < amountNeeded) {
+        ok = false;
+      }
+    });
+
+    return ok;
+  }
+
+  private spendBuildResources(settings: BuildingSettings): void {
+    const resources = this.buildResources;
+
+    ObjectUtils.forInEnum<ResourceType>(ResourceType, function (resourceType) {
+      const amountNeeded = settings.getBuildPrice(resourceType);
+
+      if (amountNeeded <= 0) {
+        return;
+      }
+
+      if (GameConfig.DebugSpending) {
+        console.log(`Spent ${amountNeeded} of ${resourceType} for ${settings.type + '_'}`);
+      }
+
+      resources.subtractAmount(resourceType, amountNeeded);
+    });
   }
 }

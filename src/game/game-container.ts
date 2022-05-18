@@ -19,10 +19,6 @@ export default class GameContainer extends Phaser.GameObjects.Container {
     const world = new World(this.scene);
     this.world = world;
     this.add(world);
-
-    world
-      .getLoader()
-        .load(<ILevelConfig>BasicLevel);
   }
 
   private initGameplay(): void {
@@ -34,6 +30,9 @@ export default class GameContainer extends Phaser.GameObjects.Container {
   }
 
   private start(): void {
+    this.world
+      .getLoader()
+        .load(<ILevelConfig>BasicLevel);
     this.gameplay.start();
   }
 }

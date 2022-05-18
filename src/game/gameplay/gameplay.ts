@@ -56,7 +56,12 @@ export default class Gameplay {
   }
 
   private initPlayer(): void {
-    this.player = new AIPlayer();
+    const player = new AIPlayer();
+    const buildResources = player.getNonTransportableResources();
+    const actionContext = this.actionContext;
+    this.player = player;
+    actionContext.player = player;
+    actionContext.buildingFactory.setBuildResources(buildResources);
   }
 
   private initMarket(): void {
