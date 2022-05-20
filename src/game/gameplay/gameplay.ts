@@ -41,6 +41,10 @@ export default class Gameplay {
     this.initProcessors();
   }
 
+  public onWorldLoaded(): void {
+    this.player.init(this.world);
+  }
+
   public start(): void {
     this.runner.paused = false;
   }
@@ -129,6 +133,11 @@ export default class Gameplay {
 
   private processPlayer(): void {
     const action = this.player.act();
+
+    if (GameConfig.DebugActions) {
+      console.log(`Executing player's action: ${action}`);
+    }
+
     action.setContext(this.actionContext);
     action.execute();
   }

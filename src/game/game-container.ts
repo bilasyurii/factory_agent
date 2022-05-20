@@ -33,6 +33,7 @@ export default class GameContainer extends Phaser.GameObjects.Container {
     this.world
       .getLoader()
         .load(<ILevelConfig>BasicLevel);
+    this.gameplay.onWorldLoaded();
     this.gameplay.start();
   }
 }

@@ -21,7 +21,7 @@ export default class OverheadsSellingProcessor extends WorldProcessor {
     const playerResources = this.player.getNonTransportableResources();
     const amount = playerResources.getAmount(resourceType);
 
-    if (amount < 1000) {
+    if (amount < GameConfig.SellOverheadFrom) {
       return;
     }
 
@@ -31,7 +31,7 @@ export default class OverheadsSellingProcessor extends WorldProcessor {
       return;
     }
 
-    const sellAmount = 500;
+    const sellAmount = GameConfig.SellOverheadAmount;
     const income = sellAmount * price;
 
     if (GameConfig.DebugSelling) {

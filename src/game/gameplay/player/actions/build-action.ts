@@ -43,4 +43,8 @@ export default class BuildAction extends PlayerAction {
 
     tile.setBuilding(building);
   }
+
+  public toString(): string {
+    return `Build ${this.buildingType} at x=${this.x} y=${this.y}`;
+  }
 }

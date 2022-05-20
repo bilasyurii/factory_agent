@@ -9,6 +9,18 @@ export default class ObjectUtils {
     }
   }
 
+  public static enumToArray<T>(object: any): T[] {
+    const arr: T[] = [];
+
+    for (const key in object) {
+      if (Object.prototype.hasOwnProperty.call(object, key)) {
+        arr.push(key as any as T);
+      }
+    }
+
+    return arr;
+  }
+
   public static forInEnum<T>(object: any, callback: (key: T) => void, ctx?: any): void {
     for (const key in object) {
       if (Object.prototype.hasOwnProperty.call(object, key)) {

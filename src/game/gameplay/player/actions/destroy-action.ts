@@ -23,4 +23,8 @@ export default class DestroyAction extends PlayerAction {
   public execute(): void {
     this.grid.removeBuildingAt(this.x, this.y);
   }
+
+  public toString(): string {
+    return `Destroy at x=${this.x} y=${this.y}`;
+  }
 }

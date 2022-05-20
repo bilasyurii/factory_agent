@@ -7,4 +7,8 @@ export default class DoNothingAction extends PlayerAction {
   }
 
   public execute(): void { }
+
+  public toString(): string {
+    return 'Do nothing';
+  }
 }

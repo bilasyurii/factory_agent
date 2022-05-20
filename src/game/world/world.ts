@@ -32,6 +32,14 @@ export default class World extends Phaser.GameObjects.Container {
     this.initPathfinder();
   }
 
+  public getWidth(): number {
+    return this.grid.getWidth();
+  }
+
+  public getHeight(): number {
+    return this.grid.getHeight();
+  }
+
   public getLoader(): WorldLoader {
     return this.loader;
   }
