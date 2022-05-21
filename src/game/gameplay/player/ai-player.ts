@@ -8,6 +8,7 @@ import ObjectUtils from '../../../utils/object-utils';
 import World from '../../world/world';
 import ResourceType from '../../world/resource/resource-type.enum';
 import DestroyAction from './actions/destroy-action';
+import Karma from '../karma/karma';
 
 const BUILDING_TYPES = ObjectUtils.enumToArray<BuildingType>(BuildingType);
 const BUILDING_TYPES_COUNT = BUILDING_TYPES.length;
@@ -24,59 +25,20 @@ export default class AIPlayer extends Player {
     super();
   }
 
-  public init(world: World): void {
-    super.init(world);
+  public init(world: World, karma: Karma): void {
+    super.init(world, karma);
     this.initEnvironmentSettings();
     this.initAgent();
   }
 
   public act(): PlayerAction {
-    const width = this.worldWidth;
-    const height = this.worldHeight;
-    const world = this.world;
-    const environmentState = [];
+    const environmentState = this.readEnvironmentState();
+    const actionCode = this.agent.act(environmentState);
+    return this.parseAction(actionCode);
+  }
 
-    for (let y = 0; y < height; ++y) {
-      for (let x = 0; x < width; ++x) {
-        const building = world.getBuildingAt(x, y);
-        environmentState.push((building ? BUILDING_TYPES.indexOf(building.getType()) + 1 : 0))
-      }
-    }
-
-    const resources = this.nonTransportableResources;
-    environmentState.push(resources.getAmount(ResourceType.Money));
-    environmentState.push(resources.getAmount(ResourceType.Energy));
-
-    let checkActionsCount: number;
-    let action = this.agent.act(environmentState);
-    checkActionsCount = this.doNothingActions;
-
-    if (action < checkActionsCount) {
-      return new DoNothingAction();
-    }
-
-    action -= checkActionsCount;
-    checkActionsCount = this.destroyActions;
-
-    if (action < checkActionsCount) {
-      const y = ~~(action / width);
-      const x = action % width;
-      return new DestroyAction(x, y);
-    }
-
-    action -= checkActionsCount;
-    checkActionsCount = this.buildActions;
-
-    if (action < checkActionsCount) {
-      const buildingTypeIndex = action % BUILDING_TYPES_COUNT;
-      const buildingType = BUILDING_TYPES[buildingTypeIndex];
-      const xy = ~~(action / BUILDING_TYPES_COUNT);
-      const y = ~~(xy / width);
-      const x = xy % width;
-      return new BuildAction(buildingType, x, y);
-    }
-
-    throw new Error('Wrong action code' + action);
+  public postUpdate(): void {
+    this.agent.learn(this.karma.summarize());
   }
 
   private initEnvironmentSettings(): void {
@@ -110,5 +72,58 @@ export default class AIPlayer extends Player {
       experience_size: 20000,
       learning_steps_per_iteration: 20,
     });
+  }
+
+  private readEnvironmentState(): RL.EnvironmentState {
+    const width = this.worldWidth;
+    const height = this.worldHeight;
+    const world = this.world;
+    const environmentState = [];
+
+    for (let y = 0; y < height; ++y) {
+      for (let x = 0; x < width; ++x) {
+        const building = world.getBuildingAt(x, y);
+        environmentState.push((building ? BUILDING_TYPES.indexOf(building.getType()) + 1 : 0))
+      }
+    }
+
+    const resources = this.nonTransportableResources;
+    environmentState.push(resources.getAmount(ResourceType.Money));
+    environmentState.push(resources.getAmount(ResourceType.Energy));
+    return environmentState;
+  }
+
+  private parseAction(action: number): PlayerAction {
+    let checkActionsCount: number;
+    checkActionsCount = this.doNothingActions;
+
+    if (action < checkActionsCount) {
+      return new DoNothingAction();
+    }
+
+    const width = this.worldWidth;
+
+    action -= checkActionsCount;
+    checkActionsCount = this.destroyActions;
+
+    if (action < checkActionsCount) {
+      const y = ~~(action / width);
+      const x = action % width;
+      return new DestroyAction(x, y);
+    }
+
+    action -= checkActionsCount;
+    checkActionsCount = this.buildActions;
+
+    if (action < checkActionsCount) {
+      const buildingTypeIndex = action % BUILDING_TYPES_COUNT;
+      const buildingType = BUILDING_TYPES[buildingTypeIndex];
+      const xy = ~~(action / BUILDING_TYPES_COUNT);
+      const y = ~~(xy / width);
+      const x = xy % width;
+      return new BuildAction(buildingType, x, y);
+    }
+
+    throw new Error('Wrong action code' + action);
   }
 }

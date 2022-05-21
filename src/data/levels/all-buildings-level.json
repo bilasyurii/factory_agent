@@ -1,0 +1,320 @@
+{
+  "size": {
+    "width": 10,
+    "height": 10
+  },
+  "tiles": {
+    "fill": {
+      "type": "Grass"
+    },
+    "exceptions": [
+      {
+        "type": "Water",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "type": "Water",
+        "x": 1,
+        "y": 0
+      },
+      {
+        "type": "Water",
+        "x": 2,
+        "y": 0
+      },
+      {
+        "type": "Water",
+        "x": 0,
+        "y": 1
+      },
+      {
+        "type": "Water",
+        "x": 1,
+        "y": 1
+      },
+      {
+        "type": "Water",
+        "x": 0,
+        "y": 2
+      },
+      {
+        "type": "Platform",
+        "x": 4,
+        "y": 5
+      },
+      {
+        "type": "Platform",
+        "x": 5,
+        "y": 5
+      },
+      {
+        "type": "Platform",
+        "x": 5,
+        "y": 6
+      },
+      {
+        "type": "Platform",
+        "x": 5,
+        "y": 7
+      },
+      {
+        "type": "Platform",
+        "x": 6,
+        "y": 5
+      },
+      {
+        "type": "Platform",
+        "x": 7,
+        "y": 5
+      },
+      {
+        "type": "Platform",
+        "x": 6,
+        "y": 4
+      },
+      {
+        "type": "Platform",
+        "x": 6,
+        "y": 3
+      },
+      {
+        "type": "Platform",
+        "x": 7,
+        "y": 4
+      },
+      {
+        "type": "Platform",
+        "x": 4,
+        "y": 6
+      },
+      {
+        "type": "Platform",
+        "x": 3,
+        "y": 6
+      },
+      {
+        "type": "Platform",
+        "x": 2,
+        "y": 6
+      },
+      {
+        "type": "Platform",
+        "x": 1,
+        "y": 6
+      },
+      {
+        "type": "Platform",
+        "x": 4,
+        "y": 7
+      },
+      {
+        "type": "Platform",
+        "x": 5,
+        "y": 4
+      },
+      {
+        "type": "Platform",
+        "x": 3,
+        "y": 7
+      },
+      {
+        "type": "Platform",
+        "x": 2,
+        "y": 7
+      },
+      {
+        "type": "Platform",
+        "x": 1,
+        "y": 7
+      },
+      {
+        "type": "Platform",
+        "x": 6,
+        "y": 6
+      },
+      {
+        "type": "Platform",
+        "x": 1,
+        "y": 5
+      },
+      {
+        "type": "Platform",
+        "x": 1,
+        "y": 4
+      },
+      {
+        "type": "Platform",
+        "x": 1,
+        "y": 3
+      },
+      {
+        "type": "Platform",
+        "x": 1,
+        "y": 2
+      },
+      {
+        "type": "Platform",
+        "x": 2,
+        "y": 2
+      },
+      {
+        "type": "Platform",
+        "x": 2,
+        "y": 3
+      },
+      {
+        "type": "Platform",
+        "x": 0,
+        "y": 3
+      },
+      {
+        "type": "Platform",
+        "x": 0,
+        "y": 4
+      }
+    ]
+  },
+  "buildings": [
+    {
+      "type": "OilDerrick",
+      "x": 4,
+      "y": 5
+    },
+    {
+      "type": "OilRefinery",
+      "x": 5,
+      "y": 7
+    },
+    {
+      "type": "Storage",
+      "x": 7,
+      "y": 5
+    },
+    {
+      "type": "PlasticRefinery",
+      "x": 4,
+      "y": 7
+    },
+    {
+      "type": "IronMine",
+      "x": 7,
+      "y": 4
+    },
+    {
+      "type": "CoalMine",
+      "x": 6,
+      "y": 3
+    },
+    {
+      "type": "Furnace",
+      "x": 5,
+      "y": 4
+    },
+    {
+      "type": "ToolsAssembly",
+      "x": 6,
+      "y": 6
+    },
+    {
+      "type": "CarsAssembly",
+      "x": 3,
+      "y": 7
+    },
+    {
+      "type": "WaterPump",
+      "x": 1,
+      "y": 1
+    },
+    {
+      "type": "PowerPlant",
+      "x": 2,
+      "y": 2
+    },
+    {
+      "type": "CoalMine",
+      "x": 2,
+      "y": 3
+    },
+    {
+      "type": "Turbine",
+      "x": 0,
+      "y": 3
+    },
+    {
+      "type": "Turbine",
+      "x": 0,
+      "y": 4
+    },
+    {
+      "type": "IronMine",
+      "x": 2,
+      "y": 7
+    },
+    {
+      "type": "Conveyor",
+      "x": 5,
+      "y": 5
+    },
+    {
+      "type": "Conveyor",
+      "x": 5,
+      "y": 6
+    },
+    {
+      "type": "Conveyor",
+      "x": 6,
+      "y": 5
+    },
+    {
+      "type": "Conveyor",
+      "x": 6,
+      "y": 5
+    },
+    {
+      "type": "Conveyor",
+      "x": 6,
+      "y": 4
+    },
+    {
+      "type": "Conveyor",
+      "x": 4,
+      "y": 6
+    },
+    {
+      "type": "Conveyor",
+      "x": 3,
+      "y": 6
+    },
+    {
+      "type": "Conveyor",
+      "x": 2,
+      "y": 6
+    },
+    {
+      "type": "Conveyor",
+      "x": 1,
+      "y": 6
+    },
+    {
+      "type": "Conveyor",
+      "x": 1,
+      "y": 5
+    },
+    {
+      "type": "Conveyor",
+      "x": 1,
+      "y": 4
+    },
+    {
+      "type": "Conveyor",
+      "x": 1,
+      "y": 3
+    },
+    {
+      "type": "Conveyor",
+      "x": 1,
+      "y": 2
+    }
+  ]
+}

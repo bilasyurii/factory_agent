@@ -15,12 +15,16 @@ import TransportationProcessor from './processing/transportation-processor';
 import Market from './market/market';
 import ResourceSellingProcessor from './processing/resource-selling-processor';
 import OverheadsSellingProcessor from './processing/overheads-selling-processor';
+import Karma from './karma/karma';
+import KarmaController from './karma/karma-controller';
 
 export default class Gameplay {
   private scene: Scene;
   private world: World;
   private runner: TimerEvent;
   private player: Player;
+  private karma: Karma;
+  private karmaController: KarmaController;
   private market: Market;
   private transportations: TransportationManager;
   private actionContext: IPlayerActionContext;
@@ -34,6 +38,8 @@ export default class Gameplay {
     this.actionContext = config.actionContext;
 
     this.initRunner();
+    this.initKarma();
+    this.initKarmaController();
     this.initPlayer();
     this.initMarket();
     this.initTransportationManager();
@@ -42,7 +48,7 @@ export default class Gameplay {
   }
 
   public onWorldLoaded(): void {
-    this.player.init(this.world);
+    this.player.init(this.world, this.karma);
   }
 
   public start(): void {
@@ -57,6 +63,14 @@ export default class Gameplay {
       callback: this.tick,
       callbackScope: this,
     });
+  }
+
+  private initKarma(): void {
+    this.karma = new Karma();
+  }
+
+  private initKarmaController(): void {
+    this.karmaController = new KarmaController(this.karma);
   }
 
   private initPlayer(): void {
@@ -112,7 +126,8 @@ export default class Gameplay {
     this.preProcess();
     this.processPlayer();
     this.postProcess();
-    console.log(this.player.getNonTransportableResources().toString());
+    this.postUpdate();
+    // console.log(this.player.getNonTransportableResources().toString());
     // console.warn(this.world.getBuildingAt(4, 5).getResources().toString());
     // console.warn(this.world.getBuildingAt(7, 5).getResources().toString());
     // console.warn(this.world.getBuildingAt(4, 7).getResources().toString());
@@ -120,7 +135,11 @@ export default class Gameplay {
   }
 
   private preUpdate(): void {
-    this.world.getPathfinder().update();
+    const karma = this.karma;
+    const pathfinder = this.world.getPathfinder();
+    karma.preUpdate();
+    pathfinder.update();
+    this.karmaController.processPathfinder(pathfinder);
   }
 
   private preProcess(): void {
@@ -129,6 +148,10 @@ export default class Gameplay {
 
   private postProcess(): void {
     this.postprocessors.forEach(this.executeProcessor, this);
+  }
+
+  private postUpdate(): void {
+    this.player.postUpdate();
   }
 
   private processPlayer(): void {

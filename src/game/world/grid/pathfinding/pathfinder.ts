@@ -4,13 +4,18 @@ import Building, { BuildingId } from '../../building/building';
 import BuildingType from '../../building/building-type.enum';
 import Tile from '../../tiles/tile';
 import Grid from '../grid';
+import IPathsAnalytics from './paths-analytics.interface';
+
+type ConnectionsData = Record<BuildingId, number>;
+type PathsData = Record<BuildingId, ConnectionsData>;
 
 export default class Pathfinder {
   private grid: Grid;
   private dirty: boolean = true;
   private distances: number[][];
   private neighborOffsets: Vector2[];
-  private paths: Record<BuildingId, Record<BuildingId, number>>;
+  private paths: PathsData;
+  private prevPaths: PathsData;
 
   constructor(grid: Grid) {
     this.grid = grid;
@@ -54,11 +59,34 @@ export default class Pathfinder {
     return closestBuilding;
   }
 
+  public getPreviousPathsData(): PathsData {
+    return this.prevPaths;
+  }
+
+  public getPaths(): PathsData {
+    return this.paths;
+  }
+
+  public analyzePathsData(data: PathsData): IPathsAnalytics {
+    let missingPathsCount = 0;
+    const buildingsCount = Object.keys(data).length;
+
+    ObjectUtils.forInObject<BuildingId, ConnectionsData>(data, function (buildingId, connections) {
+      const connectionsCount = Object.keys(connections).length;
+      missingPathsCount += (buildingsCount - connectionsCount);
+    });
+
+    return {
+      missingPathsCount,
+    };
+  }
+
   public update(): void {
     if (!this.dirty) {
       return;
     }
 
+    this.prevPaths = this.paths;
     this.paths = {};
     this.grid.forEachBuilding(this.processBuildingConnections, this);
     this.dirty = false;
@@ -83,7 +111,7 @@ export default class Pathfinder {
       return;
     }
 
-    const connections: Record<BuildingId, number> = {};
+    const connections: ConnectionsData = {};
     this.paths[building.id] = connections;
 
     const grid = this.grid;

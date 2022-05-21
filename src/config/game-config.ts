@@ -12,7 +12,7 @@ const GameConfig = {
   DebugProduction: false,
   DebugUsage: false,
   DebugSelling: false,
-  DebugSpending: true,
+  DebugSpending: false,
   DebugActions: true,
 };
 
