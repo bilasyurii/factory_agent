@@ -73,9 +73,15 @@ export default class Grid extends Phaser.Events.EventEmitter {
     }
   }
 
-  public removeBuildingAt(x: number, y: number): void {
+  public removeBuildingAt(x: number, y: number): boolean {
     const building = this.getBuilding(x, y);
-    this.removeBuilding(building);
+
+    if (building) {
+      this.removeBuilding(building);
+      return true;
+    } else {
+      return false;
+    }
   }
   
   public forEachBuilding(cb: (building: Building) => void, ctx?: any) {

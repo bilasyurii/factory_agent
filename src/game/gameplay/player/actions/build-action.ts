@@ -34,6 +34,7 @@ export default class BuildAction extends PlayerAction {
     const building = this.buildingFactory.create(this.buildingType, tile, false);
 
     if (!building) {
+      this.karmaController.processWrongBuild();
       return;
     }
 

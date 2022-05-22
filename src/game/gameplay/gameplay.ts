@@ -70,7 +70,9 @@ export default class Gameplay {
   }
 
   private initKarmaController(): void {
-    this.karmaController = new KarmaController(this.karma);
+    const karmaController = new KarmaController(this.karma);
+    this.karmaController = karmaController;
+    this.actionContext.karmaController = karmaController;
   }
 
   private initPlayer(): void {
@@ -151,6 +153,7 @@ export default class Gameplay {
   }
 
   private postUpdate(): void {
+    this.karmaController.processPlayerResources(this.player.getNonTransportableResources());
     this.player.postUpdate();
   }
 

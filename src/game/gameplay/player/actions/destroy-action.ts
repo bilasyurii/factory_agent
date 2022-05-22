@@ -21,7 +21,11 @@ export default class DestroyAction extends PlayerAction {
   }
 
   public execute(): void {
-    this.grid.removeBuildingAt(this.x, this.y);
+    const success = this.grid.removeBuildingAt(this.x, this.y);
+
+    if (!success) {
+      this.karmaController.processWrongDestroy();
+    }
   }
 
   public toString(): string {

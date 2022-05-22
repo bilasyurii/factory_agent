@@ -54,6 +54,7 @@ export default class World extends Phaser.GameObjects.Container {
       grid: this.grid,
       buildingFactory: this.buildingFactory,
       tileFactory: this.tileFactory,
+      karmaController: null,
     };
   }
 
