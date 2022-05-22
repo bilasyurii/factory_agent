@@ -19,6 +19,7 @@ import Karma from './karma/karma';
 import KarmaController from './karma/karma-controller';
 import HUD from '../ui/hud';
 import ProcessingEventType from './processing/processing-event-type.enum';
+import PathfinderEventType from '../world/grid/pathfinding/pathfinder-event-type.enum';
 
 export default class Gameplay {
   private scene: Scene;
@@ -49,9 +50,11 @@ export default class Gameplay {
     this.initTransportationManager();
     this.initProcessorConfig(); 
     this.initProcessors();
+    this.setupEvents();
   }
 
   public onWorldLoaded(): void {
+    this.world.getPathfinder().update(true);
     this.player.init(this.world, this.karma);
   }
 
@@ -77,6 +80,7 @@ export default class Gameplay {
     const karmaController = new KarmaController(this.karma);
     this.karmaController = karmaController;
     this.actionContext.karmaController = karmaController;
+    karmaController.reset();
   }
 
   private initPlayer(): void {
@@ -114,6 +118,14 @@ export default class Gameplay {
     this.addProcessor(new OverheadsSellingProcessor());
   }
 
+  private setupEvents(): void {
+    const pathfinder = this.world.getPathfinder();
+    pathfinder.on(PathfinderEventType.ConnectedBuildings, this.onConnectedBuildings, this);
+    pathfinder.on(PathfinderEventType.ConnectedRelatedBuildings, this.onConnectedRelatedBuildings, this);
+    pathfinder.on(PathfinderEventType.ConnectedBuildingToStorage, this.onConnectedBuildingToStorage, this);
+    pathfinder.on(PathfinderEventType.ConnectedToConveyor, this.onConnectedToConveyor, this);
+  }
+
   private addProcessor(processor: WorldProcessor): void {
     processor.setup(this.processorConfig);
 
@@ -144,11 +156,7 @@ export default class Gameplay {
   }
 
   private preUpdate(): void {
-    const karma = this.karma;
-    const pathfinder = this.world.getPathfinder();
-    karma.preUpdate();
-    pathfinder.update();
-    this.karmaController.processPathfinder(pathfinder);
+    this.karma.preUpdate();
   }
 
   private preProcess(): void {
@@ -160,8 +168,13 @@ export default class Gameplay {
   }
 
   private postUpdate(): void {
-    this.karmaController.processPlayerResources(this.player.getNonTransportableResources());
-    this.player.postUpdate();
+    const player = this.player;
+    const karmaController = this.karmaController;
+    const pathfinder = this.world.getPathfinder();
+    pathfinder.update();
+    karmaController.processPathfinder(pathfinder);
+    karmaController.processPlayerResources(player.getNonTransportableResources());
+    player.postUpdate();
     this.updateHUD();
   }
 
@@ -181,7 +194,9 @@ export default class Gameplay {
   }
 
   private updateHUD(): void {
-    this.hud.updateResources(this.player.getNonTransportableResources());
+    this.hud
+      .updateResources(this.player.getNonTransportableResources())
+      .updateKarma(this.karma.summarize());
   }
 
   private onOverheadSold(): void {
@@ -190,5 +205,21 @@ export default class Gameplay {
 
   private onResourceSold(income: number): void {
     this.karmaController.processResourceSold(income);
+  }
+
+  private onConnectedBuildings(): void {
+    this.karmaController.processConnectedBuildings();
+  }
+
+  private onConnectedRelatedBuildings(): void {
+    this.karmaController.processConnectedRelatedBuildings();
+  }
+
+  private onConnectedBuildingToStorage(): void {
+    this.karmaController.processConnectedBuildingToStorage();
+  }
+
+  private onConnectedToConveyor(): void {
+    this.karmaController.processConnectedToConveyor();
   }
 }

@@ -4,21 +4,29 @@ import ResourceType from "../world/resource/resource-type.enum";
 export default class HUD extends Phaser.GameObjects.Container {
   private moneyText: PhaserText;
   private energyText: PhaserText;
+  private karmaText: PhaserText;
 
   constructor(scene: Scene) {
     super(scene);
 
-    this.initResourceTexts();
+    this.initStatTexts();
   }
 
-  public updateResources(playerResources: ResourceBunch): void {
+  public updateResources(playerResources: ResourceBunch): this {
     this.moneyText.setText(playerResources.getAmount(ResourceType.Money) + ' : Money');
     this.energyText.setText(playerResources.getAmount(ResourceType.Energy) + ' : Energy');
+    return this;
   }
 
-  private initResourceTexts(): void {
+  public updateKarma(value: number): this {
+    this.karmaText.setText(value.toFixed(2) + ' : Karma');
+    return this;
+  }
+
+  private initStatTexts(): void {
     this.moneyText = this.createText(new Phaser.Math.Vector2(850, 50));
     this.energyText = this.createText(new Phaser.Math.Vector2(850, 100));
+    this.karmaText = this.createText(new Phaser.Math.Vector2(850, 150));
   }
 
   private createText(position: Vector2): PhaserText {
@@ -26,7 +34,7 @@ export default class HUD extends Phaser.GameObjects.Container {
       align: 'right',
       color: '#ffff00',
       fontFamily: 'Arial',
-      fontSize: '30pt',
+      fontSize: '20pt',
     });
     this.add(text);
     text.setOrigin(1, 0.5);
