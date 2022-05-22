@@ -19,7 +19,6 @@ export default class HUD extends Phaser.GameObjects.Container {
   private initResourceTexts(): void {
     this.moneyText = this.createText(new Phaser.Math.Vector2(850, 50));
     this.energyText = this.createText(new Phaser.Math.Vector2(850, 100));
-    console.log(this.moneyText, this.energyText);
   }
 
   private createText(position: Vector2): PhaserText {
