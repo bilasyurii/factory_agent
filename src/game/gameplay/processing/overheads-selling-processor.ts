@@ -1,6 +1,7 @@
 import GameConfig from '../../../config/game-config';
 import ObjectUtils from '../../../utils/object-utils';
 import ResourceType from '../../world/resource/resource-type.enum';
+import ProcessingEventType from './processing-event-type.enum';
 import ProcessorType from './processor-type.enum';
 import WorldProcessor from './world-processor';
 
@@ -40,5 +41,6 @@ export default class OverheadsSellingProcessor extends WorldProcessor {
 
     playerResources.subtractAmount(resourceType, sellAmount);
     playerResources.addAmount(ResourceType.Money, income);
+    this.emit(ProcessingEventType.SellOverhead);
   }
 }

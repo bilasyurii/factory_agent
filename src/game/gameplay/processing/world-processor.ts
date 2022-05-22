@@ -7,7 +7,7 @@ import TransportationManager from '../transportation/transportation-manager';
 import ProcessorType from './processor-type.enum';
 import IWorldProcessorConfig from './world-processor-config.interface';
 
-export default abstract class WorldProcessor {
+export default abstract class WorldProcessor extends Phaser.Events.EventEmitter {
   public readonly type: ProcessorType;
 
   protected world: World;
@@ -16,6 +16,8 @@ export default abstract class WorldProcessor {
   protected transportations: TransportationManager;
 
   constructor(type: ProcessorType) {
+    super();
+
     this.type = type;
   }
 

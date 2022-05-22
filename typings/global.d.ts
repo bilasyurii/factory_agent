@@ -5,6 +5,7 @@ declare global {
   type PhaserText = Phaser.GameObjects.Text;
   type TimerEvent = Phaser.Time.TimerEvent;
   type Vector2 = Phaser.Math.Vector2;
+  type EventEmitter = Phaser.Events.EventEmitter;
 }
 
 export {};

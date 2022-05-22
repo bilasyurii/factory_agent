@@ -36,6 +36,14 @@ export default class KarmaController {
     this.getOrCreatePersistent('Money', 10).value = MathUtils.normalizeLogarithmic(resources.getAmount(ResourceType.Money), 100, 10);
   }
 
+  public processOverheadSold(): void {
+    this.karma.addItem(new KarmaItem('OverheadSold', 3, 1, 5));
+  }
+
+  public processResourceSold(income: number): void {
+    this.karma.addItem(new KarmaItem('ResourceSold', 2, 0.7 + 0.3 * MathUtils.normalizeLogarithmic(income, 10, 5)));
+  }
+
   private getOrCreatePersistent(name: string, weight: number = 1): KarmaItem {
     const karma = this.karma;
     let item = karma.getPersistentByName(name);

@@ -18,6 +18,7 @@ import OverheadsSellingProcessor from './processing/overheads-selling-processor'
 import Karma from './karma/karma';
 import KarmaController from './karma/karma-controller';
 import HUD from '../ui/hud';
+import ProcessingEventType from './processing/processing-event-type.enum';
 
 export default class Gameplay {
   private scene: Scene;
@@ -124,6 +125,9 @@ export default class Gameplay {
         this.postprocessors.push(processor);
         break;
     }
+
+    processor.on(ProcessingEventType.SellOverhead, this.onOverheadSold, this);
+    processor.on(ProcessingEventType.SellResource, this.onResourceSold, this);
   }
 
   private tick(): void {
@@ -178,5 +182,13 @@ export default class Gameplay {
 
   private updateHUD(): void {
     this.hud.updateResources(this.player.getNonTransportableResources());
+  }
+
+  private onOverheadSold(): void {
+    this.karmaController.processOverheadSold();
+  }
+
+  private onResourceSold(income: number): void {
+    this.karmaController.processResourceSold(income);
   }
 }

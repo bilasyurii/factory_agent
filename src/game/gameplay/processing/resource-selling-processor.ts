@@ -5,6 +5,7 @@ import BuildingType from '../../world/building/building-type.enum';
 import ObjectUtils from '../../../utils/object-utils';
 import ResourceType from '../../world/resource/resource-type.enum';
 import GameConfig from '../../../config/game-config';
+import ProcessingEventType from './processing-event-type.enum';
 
 export default class ResourceSellingProcessor extends WorldProcessor {
   constructor() {
@@ -19,6 +20,7 @@ export default class ResourceSellingProcessor extends WorldProcessor {
     const playerResources = this.player.getNonTransportableResources();
     const resources = building.getResources();
     const market = this.market;
+    const emitter = this as EventEmitter;
 
     ObjectUtils.forInEnum<ResourceType>(ResourceType, function (resourceType) {
       const amount = ~~resources.getAmount(resourceType);
@@ -41,6 +43,7 @@ export default class ResourceSellingProcessor extends WorldProcessor {
 
       resources.subtractAmount(resourceType, amount);
       playerResources.addAmount(ResourceType.Money, income);
+      emitter.emit(ProcessingEventType.SellResource, income);
     });
   }
 }
