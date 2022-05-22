@@ -17,10 +17,12 @@ import ResourceSellingProcessor from './processing/resource-selling-processor';
 import OverheadsSellingProcessor from './processing/overheads-selling-processor';
 import Karma from './karma/karma';
 import KarmaController from './karma/karma-controller';
+import HUD from '../ui/hud';
 
 export default class Gameplay {
   private scene: Scene;
   private world: World;
+  private hud: HUD;
   private runner: TimerEvent;
   private player: Player;
   private karma: Karma;
@@ -35,6 +37,7 @@ export default class Gameplay {
   constructor(config: IGameplayConfig) {
     this.scene = config.scene;
     this.world = config.world;
+    this.hud = config.hud;
     this.actionContext = config.actionContext;
 
     this.initRunner();
@@ -155,6 +158,7 @@ export default class Gameplay {
   private postUpdate(): void {
     this.karmaController.processPlayerResources(this.player.getNonTransportableResources());
     this.player.postUpdate();
+    this.updateHUD();
   }
 
   private processPlayer(): void {
@@ -170,5 +174,9 @@ export default class Gameplay {
 
   private executeProcessor(processor: WorldProcessor): void {
     processor.process();
+  }
+
+  private updateHUD(): void {
+    this.hud.updateResources(this.player.getNonTransportableResources());
   }
 }
