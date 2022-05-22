@@ -65,7 +65,7 @@ export default class KarmaController {
   }
 
   public processConnectedBuildings(): void {
-    this.karma.addItem(new KarmaItem('ConnectedBuildings', 3, 1));
+    this.karma.addItem(new KarmaItem('ConnectedBuildings', 1, 1));
   }
 
   public processConnectedRelatedBuildings(): void {

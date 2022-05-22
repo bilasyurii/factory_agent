@@ -18,6 +18,7 @@ export default class Pathfinder extends Phaser.Events.EventEmitter {
   private neighborOffsets: Vector2[];
   private paths: PathsData;
   private prevPaths: PathsData;
+  private builtBuilding: Building = null;
 
   constructor(grid: Grid) {
     super();
@@ -27,7 +28,12 @@ export default class Pathfinder extends Phaser.Events.EventEmitter {
     this.initArrays();
   }
 
-  public markDirty(): void {
+  public onBuildingBuilt(building: Building): void {
+    this.dirty = true;
+    this.builtBuilding = building;
+  }
+
+  public onBuildingDestroyed(): void {
     this.dirty = true;
   }
 
@@ -99,6 +105,8 @@ export default class Pathfinder extends Phaser.Events.EventEmitter {
     if (!silent) {
       this.emitConnectionEvents();
     }
+
+    this.builtBuilding = null;
   }
 
   private initArrays(): void {
@@ -146,20 +154,20 @@ export default class Pathfinder extends Phaser.Events.EventEmitter {
         const offset = neighborOffsets[i];
         const neighborX = x + offset.x;
         const neighborY = y + offset.y;
-        const neighbor = grid.getTile(neighborX, neighborY);
+        const neighborTile = grid.getTile(neighborX, neighborY);
 
-        if (!neighbor || distances[neighborY][neighborX] !== UNDISCOVERED) {
+        if (!neighborTile || distances[neighborY][neighborX] !== UNDISCOVERED) {
           continue;
         }
 
-        const otherBuilding = neighbor.getBuilding();
+        const otherBuilding = neighborTile.getBuilding();
 
         if (!otherBuilding) {
           distances[neighborY][neighborX] = Infinity;
           continue;
         }
 
-        queue.push(neighbor);
+        queue.push(neighborTile);
 
         const newDistance = distance + 1;
         distances[neighborY][neighborX] = newDistance;
@@ -231,6 +239,33 @@ export default class Pathfinder extends Phaser.Events.EventEmitter {
       if (connectedToStorage) {
         for (let i = 0; i < connectedToStorage; ++i) {
           self.emit(PathfinderEventType.ConnectedBuildingToStorage);
+        }
+      }
+    }
+
+    const builtBuilding = this.builtBuilding;
+
+    if (builtBuilding) {
+      const x = builtBuilding.getX();
+      const y = builtBuilding.getY();
+      const neighborOffsets = this.neighborOffsets;
+      const neighborsCount = neighborOffsets.length;
+
+      for (let i = 0; i < neighborsCount; ++i) {
+        const offset = neighborOffsets[i];
+        const neighborX = x + offset.x;
+        const neighborY = y + offset.y;
+        const neighborTile = grid.getTile(neighborX, neighborY);
+
+        if (!neighborTile) {
+          continue;
+        }
+
+        const neighborBuilding = neighborTile.getBuilding();
+
+        if (neighborBuilding && neighborBuilding.getType() === BuildingType.Conveyor) {
+          self.emit(PathfinderEventType.ConnectedToConveyor);
+          break;
         }
       }
     }

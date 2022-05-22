@@ -71,6 +71,7 @@ export default class AIPlayer extends Player {
       experience_add_every: 1,
       experience_size: 20000,
       learning_steps_per_iteration: 20,
+      num_hidden_units: 200,
     });
   }
 

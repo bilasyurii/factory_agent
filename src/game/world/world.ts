@@ -129,11 +129,11 @@ export default class World extends Phaser.GameObjects.Container {
 
   private addBuildingView(buildingView: BuildingView): void {
     this.buildingsLayer.add(buildingView);
-    this.pathfinder.markDirty();
+    this.pathfinder.onBuildingBuilt(buildingView.getBuilding());
   }
 
   private removeBuildingView(buildingView: BuildingView): void {    
     this.buildingsLayer.remove(buildingView, true);
-    this.pathfinder.markDirty();
+    this.pathfinder.onBuildingDestroyed();
   }
 }
