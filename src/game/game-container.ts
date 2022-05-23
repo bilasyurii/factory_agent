@@ -1,5 +1,6 @@
 import World from './world/world';
 import BasicLevel from '../data/levels/basic-level.json';
+// import AllBuildingsLevel from '../data/levels/all-buildings-level.json';
 import ILevelConfig from './world/loading/level-config.interface';
 import Gameplay from './gameplay/gameplay';
 import HUD from './ui/hud';
@@ -46,7 +47,8 @@ export default class GameContainer extends Phaser.GameObjects.Container {
 
     this.world
       .getLoader()
-        .load(<ILevelConfig>BasicLevel);
+      .load(<ILevelConfig>BasicLevel);
+      // .load(<ILevelConfig>AllBuildingsLevel);
 
     this.world.prepare();
     this.gameplay.prepare();

@@ -39,27 +39,97 @@
         "y": 2
       },
       {
-        "type": "Platform",
-        "x": 5,
+        "type": "Water",
+        "x": 0,
+        "y": 3
+      },
+      {
+        "type": "Water",
+        "x": 0,
+        "y": 4
+      },
+      {
+        "type": "Water",
+        "x": 0,
         "y": 5
       },
       {
+        "type": "Water",
+        "x": 0,
+        "y": 6
+      },
+      {
+        "type": "Water",
+        "x": 0,
+        "y": 7
+      },
+      {
+        "type": "Water",
+        "x": 0,
+        "y": 8
+      },
+      {
+        "type": "Water",
+        "x": 0,
+        "y": 9
+      },
+      {
+        "type": "Water",
+        "x": 1,
+        "y": 9
+      },
+      {
+        "type": "Water",
+        "x": 1,
+        "y": 8
+      },
+      {
+        "type": "Water",
+        "x": 1,
+        "y": 7
+      },
+      {
+        "type": "Water",
+        "x": 2,
+        "y": 9
+      },
+      {
+        "type": "Water",
+        "x": 2,
+        "y": 8
+      },
+      {
+        "type": "Water",
+        "x": 3,
+        "y": 9
+      },
+      {
+        "type": "Water",
+        "x": 4,
+        "y": 9
+      },
+      {
         "type": "Platform",
-        "x": 7,
-        "y": 5
+        "x": 4,
+        "y": 3
+      },
+      {
+        "type": "Platform",
+        "x": 2,
+        "y": 3
       }
     ]
   },
   "buildings": [
     {
       "type": "CoalMine",
-      "x": 5,
-      "y": 5
+      "x": 4,
+      "y": 3
     },
     {
       "type": "Storage",
-      "x": 7,
-      "y": 5
+      "x": 2,
+      "y": 3
     }
   ]
 }
