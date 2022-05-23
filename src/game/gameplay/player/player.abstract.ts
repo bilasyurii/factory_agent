@@ -41,6 +41,8 @@ export default abstract class Player {
 
   public onLose(): void { }
 
+  public onWin(): void { }
+
   private initResources(): void {
     this.nonTransportableResources = new ResourceBunch();
   }

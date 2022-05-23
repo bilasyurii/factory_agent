@@ -191,7 +191,7 @@ export default class Gameplay extends Phaser.Events.EventEmitter {
     karmaController.processPlayerResources(player.getNonTransportableResources());
     player.postUpdate();
     this.updateHUD();
-    this.checkLose();
+    this.checkFinish();
   }
 
   private processPlayer(): void {
@@ -215,10 +215,13 @@ export default class Gameplay extends Phaser.Events.EventEmitter {
       .updateKarma(this.karma.summarize());
   }
 
-  private checkLose(): void {
-    const resources = this.player.getNonTransportableResources();
+  private checkFinish(): void {
+    const player = this.player;
+    const resources = player.getNonTransportableResources();
+    const money = resources.getAmount(ResourceType.Money);
+    const energy = resources.getAmount(ResourceType.Energy);
 
-    if (resources.getAmount(ResourceType.Money) === 0 || resources.getAmount(ResourceType.Energy) === 0) {
+    if (money === 0 || energy === 0) {
       const timeToLose = this.timeToLose;
 
       if (timeToLose === null) {
@@ -227,10 +230,13 @@ export default class Gameplay extends Phaser.Events.EventEmitter {
         this.timeToLose = timeToLose - 1;
 
         if (timeToLose === 1) {
-          this.player.onLose();
+          player.onLose();
           this.emit(GameplayEventType.Lose);
         }
       }
+    } else if (money >= 10000 && energy >= (GameConfig.SellOverheadFrom - GameConfig.SellOverheadAmount)) {
+      player.onWin();
+      this.emit(GameplayEventType.Win);
     } else {
       this.timeToLose = null;
     }

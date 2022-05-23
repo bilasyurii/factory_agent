@@ -44,9 +44,11 @@ export default class AIPlayer extends Player {
   }
 
   public onLose(): void {
-    AgentCache.statesCount = this.statesCount;
-    AgentCache.actionsCount = this.actionsCount;
-    AgentCache.snapshot = this.agent.toJSON();
+    this.cacheAgent();
+  }
+
+  public onWin(): void {
+    this.cacheAgent();
   }
 
   private initEnvironmentSettings(): void {
@@ -139,5 +141,11 @@ export default class AIPlayer extends Player {
     }
 
     throw new Error('Wrong action code' + action);
+  }
+
+  private cacheAgent(): void {
+    AgentCache.statesCount = this.statesCount;
+    AgentCache.actionsCount = this.actionsCount;
+    AgentCache.snapshot = this.agent.toJSON();
   }
 }

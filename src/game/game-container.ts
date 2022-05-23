@@ -39,6 +39,7 @@ export default class GameContainer extends Phaser.GameObjects.Container {
 
   private setupEvents(): void {
     this.gameplay.on(GameplayEventType.Lose, this.onLose, this);
+    this.gameplay.on(GameplayEventType.Win, this.onWin, this);
   }
 
   private start(): void {
@@ -57,6 +58,10 @@ export default class GameContainer extends Phaser.GameObjects.Container {
   }
 
   private onLose(): void {
+    this.start();
+  }
+
+  private onWin(): void {
     this.start();
   }
 }

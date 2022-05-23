@@ -1,4 +1,5 @@
 enum GameplayEventType {
+  Win = 'Win',
   Lose = 'Lose',
 }
 
