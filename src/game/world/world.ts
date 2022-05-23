@@ -25,11 +25,24 @@ export default class World extends Phaser.GameObjects.Container {
 
     this.initContainers();
     this.initGrid();
-    this.setupEvents();
     this.initBuildingFactory();
     this.initTileFactory();
     this.initLoader();
     this.initPathfinder();
+  }
+
+  public reset(): void {
+    this.tilesLayer.removeAll(true);
+    this.buildingsLayer.removeAll(true);
+    this.pathfinder.reset();
+    this.grid.reset();
+    this.setupEvents();
+  }
+
+  public prepare(): void {
+    const pathfinder = this.pathfinder;
+    pathfinder.prepare();
+    pathfinder.update(true);
   }
 
   public getWidth(): number {
@@ -85,10 +98,7 @@ export default class World extends Phaser.GameObjects.Container {
   }
 
   private initGrid(): void {
-    this.grid = new Grid(this.scene, {
-      width: 10,
-      height: 10,
-    });
+    this.grid = new Grid(this.scene);
   }
 
   private initBuildingFactory(): void {

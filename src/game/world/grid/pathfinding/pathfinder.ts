@@ -13,7 +13,7 @@ type PathsData = Record<string, ConnectionsData>;
 
 export default class Pathfinder extends Phaser.Events.EventEmitter {
   private grid: Grid;
-  private dirty: boolean = true;
+  private dirty: boolean;
   private distances: number[][];
   private neighborOffsets: Vector2[];
   private paths: PathsData;
@@ -24,7 +24,16 @@ export default class Pathfinder extends Phaser.Events.EventEmitter {
     super();
 
     this.grid = grid;
+  }
 
+  public reset(): void {
+    this.dirty = true;
+    this.paths = null;
+    this.prevPaths = null;
+    this.removeAllListeners();
+  }
+
+  public prepare(): void {
     this.initArrays();
   }
 

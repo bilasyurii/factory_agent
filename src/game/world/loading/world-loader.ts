@@ -17,8 +17,13 @@ export default class WorldLoader {
   }
 
   public load(config: ILevelConfig): void {
+    this.setupSize(config.size);
     this.loadTiles(config.size, config.tiles);
     this.loadBuildings(config.buildings);
+  }
+
+  private setupSize(size: ILevelSize): void {
+    this.grid.setSize(size.width, size.height);
   }
 
   private loadTiles(size: ILevelSize, tiles: ILevelTilesConfig): void {

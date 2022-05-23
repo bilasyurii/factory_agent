@@ -17,6 +17,7 @@ export default class KarmaController {
   public reset(): void {
     this.prevMoney = 0;
     this.prevEnergy = 0;
+    this.karma.reset();
   }
 
   public processPathfinder(pathfinder: Pathfinder): void {
@@ -77,7 +78,6 @@ export default class KarmaController {
   }
 
   public processConnectedToConveyor(): void {
-    console.log('ConnectedToConveyor');
     this.karma.addItem(new KarmaItem('ConnectedToConveyor', 2, 1));
   }
 

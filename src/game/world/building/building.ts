@@ -9,6 +9,10 @@ export type BuildingId = number;
 export default class Building {
   private static nextId: BuildingId = 0;
 
+  public static resetIds(): void {
+    Building.nextId = 0;
+  }
+
   public readonly id: BuildingId = Building.nextId++;
 
   protected settings: BuildingSettings;

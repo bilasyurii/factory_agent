@@ -6,6 +6,11 @@ export default class Karma {
 
   constructor() { }
 
+  public reset(): void {
+    this.items = [];
+    this.persistentItems = [];
+  }
+
   public preUpdate(): void {
     const items = this.items;
     items.forEach(this.updateItemLifetime, this);

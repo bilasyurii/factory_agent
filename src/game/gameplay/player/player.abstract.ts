@@ -16,11 +16,19 @@ export default abstract class Player {
     this.initResources();
   }
 
-  public init(world: World, karma: Karma): void {
+  public reset(): void {
+    this.nonTransportableResources.reset();
+  }
+
+  public prepare(world: World, karma: Karma): void {
     this.world = world;
     this.karma = karma;
     this.worldWidth = world.getWidth();
     this.worldHeight = world.getHeight();
+
+    const nonTransportableResources = this.nonTransportableResources;
+    nonTransportableResources.setAmount(ResourceType.Money, GameConfig.StartingMoney);
+    nonTransportableResources.setAmount(ResourceType.Energy, GameConfig.StartingEnergy);
   }
 
   public abstract act(): PlayerAction;
@@ -31,10 +39,9 @@ export default abstract class Player {
     return this.nonTransportableResources;
   }
 
-  protected initResources(): void {
-    const nonTransportableResources = new ResourceBunch();
-    this.nonTransportableResources = nonTransportableResources;
-    nonTransportableResources.setAmount(ResourceType.Money, GameConfig.StartingMoney);
-    nonTransportableResources.setAmount(ResourceType.Energy, GameConfig.StartingEnergy);
+  public onLose(): void { }
+
+  private initResources(): void {
+    this.nonTransportableResources = new ResourceBunch();
   }
 }

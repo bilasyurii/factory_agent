@@ -3,18 +3,21 @@ import BasicLevel from '../data/levels/basic-level.json';
 import ILevelConfig from './world/loading/level-config.interface';
 import Gameplay from './gameplay/gameplay';
 import HUD from './ui/hud';
+import GameplayEventType from './gameplay/gameplay-event-type.enum';
 
 export default class GameContainer extends Phaser.GameObjects.Container {
   private world: World;
   private hud: HUD;
   private gameplay: Gameplay;
 
-  constructor(scene: Scene) {
+  constructor(scene: Scene, hud: HUD) {
     super(scene);
 
+    this.hud = hud;
+
     this.initWorld();
-    this.initHUD();
     this.initGameplay();
+    this.setupEvents();
     this.start();
   }
 
@@ -22,12 +25,6 @@ export default class GameContainer extends Phaser.GameObjects.Container {
     const world = new World(this.scene);
     this.world = world;
     this.add(world);
-  }
-
-  private initHUD(): void {
-    const hud = new HUD(this.scene);
-    this.hud = hud;
-    this.add(hud);
   }
 
   private initGameplay(): void {
@@ -39,11 +36,25 @@ export default class GameContainer extends Phaser.GameObjects.Container {
     });
   }
 
+  private setupEvents(): void {
+    this.gameplay.on(GameplayEventType.Lose, this.onLose, this);
+  }
+
   private start(): void {
+    this.world.reset();
+    this.gameplay.reset();
+
     this.world
       .getLoader()
         .load(<ILevelConfig>BasicLevel);
-    this.gameplay.onWorldLoaded();
+
+    this.world.prepare();
+    this.gameplay.prepare();
+
     this.gameplay.start();
+  }
+
+  private onLose(): void {
+    this.start();
   }
 }

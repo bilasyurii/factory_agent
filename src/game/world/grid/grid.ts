@@ -4,23 +4,32 @@ import BuildingType from '../building/building-type.enum';
 import Tile from '../tiles/tile';
 import TileEventType from '../tiles/tile-event-type.enum';
 import TileView from '../tiles/tile-view';
-import IGridConfig from './grid-config.interface';
 import GridEventType from './grid-event-type.enum';
 
 export default class Grid extends Phaser.Events.EventEmitter {
   public readonly scene: Scene;
   private tiles: Tile[][];
-  private buildings: Building[] = [];
-  private width: number = 0;
-  private height: number = 0;
+  private buildings: Building[];
+  private width: number;
+  private height: number;
 
-  constructor(scene: Scene, config: IGridConfig) {
+  constructor(scene: Scene) {
     super();
 
     this.scene = scene;
-    this.width = config.width;
-    this.height = config.height;
+  }
 
+  public reset(): void {
+    this.width = 0;
+    this.height = 0;
+    this.tiles = null;
+    this.buildings = [];
+    this.removeAllListeners();
+  }
+
+  public setSize(width: number, height: number): void {
+    this.width = width;
+    this.height = height;
     this.initArray();
   }
 

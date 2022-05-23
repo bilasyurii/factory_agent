@@ -20,8 +20,11 @@ import KarmaController from './karma/karma-controller';
 import HUD from '../ui/hud';
 import ProcessingEventType from './processing/processing-event-type.enum';
 import PathfinderEventType from '../world/grid/pathfinding/pathfinder-event-type.enum';
+import Building from '../world/building/building';
+import ResourceType from '../world/resource/resource-type.enum';
+import GameplayEventType from './gameplay-event-type.enum';
 
-export default class Gameplay {
+export default class Gameplay extends Phaser.Events.EventEmitter {
   private scene: Scene;
   private world: World;
   private hud: HUD;
@@ -35,8 +38,11 @@ export default class Gameplay {
   private processorConfig: IWorldProcessorConfig;
   private preprocessors: WorldProcessor[] = [];
   private postprocessors: WorldProcessor[] = [];
+  private timeToLose: number = null;
 
   constructor(config: IGameplayConfig) {
+    super();
+
     this.scene = config.scene;
     this.world = config.world;
     this.hud = config.hud;
@@ -53,9 +59,18 @@ export default class Gameplay {
     this.setupEvents();
   }
 
-  public onWorldLoaded(): void {
-    this.world.getPathfinder().update(true);
-    this.player.init(this.world, this.karma);
+  public reset(): void {
+    this.timeToLose = null;
+    Building.resetIds();
+    this.karma.reset();
+    this.karmaController.reset();
+    this.transportations.reset();
+    this.player.reset();
+    this.setupEvents();
+  }
+
+  public prepare(): void {
+    this.player.prepare(this.world, this.karma);
   }
 
   public start(): void {
@@ -176,6 +191,7 @@ export default class Gameplay {
     karmaController.processPlayerResources(player.getNonTransportableResources());
     player.postUpdate();
     this.updateHUD();
+    this.checkLose();
   }
 
   private processPlayer(): void {
@@ -197,6 +213,27 @@ export default class Gameplay {
     this.hud
       .updateResources(this.player.getNonTransportableResources())
       .updateKarma(this.karma.summarize());
+  }
+
+  private checkLose(): void {
+    const resources = this.player.getNonTransportableResources();
+
+    if (resources.getAmount(ResourceType.Money) === 0 || resources.getAmount(ResourceType.Energy) === 0) {
+      const timeToLose = this.timeToLose;
+
+      if (timeToLose === null) {
+        this.timeToLose = 4;
+      } else {
+        this.timeToLose = timeToLose - 1;
+
+        if (timeToLose === 1) {
+          this.player.onLose();
+          this.emit(GameplayEventType.Lose);
+        }
+      }
+    } else {
+      this.timeToLose = null;
+    }
   }
 
   private onOverheadSold(): void {

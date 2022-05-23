@@ -4,9 +4,15 @@ import ResourceType from './resource-type.enum';
 import Resources from './resources';
 
 export default class ResourceBunch {
-  private lookup: Record<ResourceType, ResourceItem> = <any>{};
+  private lookup: Record<ResourceType, ResourceItem>;
 
-  constructor() { }
+  constructor() {
+    this.reset();
+  }
+
+  public reset(): void {
+    this.lookup = <any>{};
+  }
 
   public getAmount(type: ResourceType): number {
     const item = this.lookup[type];

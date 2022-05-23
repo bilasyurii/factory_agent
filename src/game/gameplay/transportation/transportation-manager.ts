@@ -6,6 +6,10 @@ export default class TransportationManager {
 
   constructor() { }
 
+  public reset(): void {
+    this.transportations = [];
+  }
+
   public add(config: ITransportationConfig): void {
     if (config.amount > 0) {
       this.transportations.push(new Transportation(config));

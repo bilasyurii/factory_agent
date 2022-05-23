@@ -9,6 +9,7 @@ import World from '../../world/world';
 import ResourceType from '../../world/resource/resource-type.enum';
 import DestroyAction from './actions/destroy-action';
 import Karma from '../karma/karma';
+import AgentCache from './agent-cache';
 
 const BUILDING_TYPES = ObjectUtils.enumToArray<BuildingType>(BuildingType);
 const BUILDING_TYPES_COUNT = BUILDING_TYPES.length;
@@ -21,12 +22,13 @@ export default class AIPlayer extends Player {
   private destroyActions: number;
   private actionsCount: number;
 
-  constructor() {
-    super();
+  public reset(): void {
+    super.reset();
+    this.agent = null;
   }
 
-  public init(world: World, karma: Karma): void {
-    super.init(world, karma);
+  public prepare(world: World, karma: Karma): void {
+    super.prepare(world, karma);
     this.initEnvironmentSettings();
     this.initAgent();
   }
@@ -39,6 +41,12 @@ export default class AIPlayer extends Player {
 
   public postUpdate(): void {
     this.agent.learn(this.karma.summarize());
+  }
+
+  public onLose(): void {
+    AgentCache.statesCount = this.statesCount;
+    AgentCache.actionsCount = this.actionsCount;
+    AgentCache.snapshot = this.agent.toJSON();
   }
 
   private initEnvironmentSettings(): void {
@@ -64,6 +72,7 @@ export default class AIPlayer extends Player {
       getNumStates: function () { return states; },
       getMaxNumActions: function () { return actions; },
     };
+
     this.agent = new RL.DQNAgent(environment, {
       gamma: 0.5,
       epsilon: 0.05,
@@ -73,6 +82,10 @@ export default class AIPlayer extends Player {
       learning_steps_per_iteration: 20,
       num_hidden_units: 200,
     });
+
+    if (AgentCache.actionsCount === actions && AgentCache.statesCount === states) {
+      this.agent.fromJSON(AgentCache.snapshot);
+    }
   }
 
   private readEnvironmentState(): RL.EnvironmentState {
