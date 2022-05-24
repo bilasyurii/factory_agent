@@ -10,6 +10,7 @@ import ResourceType from '../../world/resource/resource-type.enum';
 import DestroyAction from './actions/destroy-action';
 import Karma from '../karma/karma';
 import AgentCache from './agent-cache';
+import GameplayEventType from '../gameplay-event-type.enum';
 
 const BUILDING_TYPES = ObjectUtils.enumToArray<BuildingType>(BuildingType);
 const BUILDING_TYPES_COUNT = BUILDING_TYPES.length;
@@ -31,6 +32,7 @@ export default class AIPlayer extends Player {
     super.prepare(world, karma);
     this.initEnvironmentSettings();
     this.initAgent();
+    this.setupEvents();
   }
 
   public act(): PlayerAction {
@@ -90,6 +92,10 @@ export default class AIPlayer extends Player {
     }
   }
 
+  private setupEvents(): void {
+    AgentCache.snapshotRequested.on(GameplayEventType.SnapshotRequested, this.onSnapshotRequested, this);
+  }
+
   private readEnvironmentState(): RL.EnvironmentState {
     const width = this.worldWidth;
     const height = this.worldHeight;
@@ -147,5 +153,9 @@ export default class AIPlayer extends Player {
     AgentCache.statesCount = this.statesCount;
     AgentCache.actionsCount = this.actionsCount;
     AgentCache.snapshot = this.agent.toJSON();
+  }
+
+  private onSnapshotRequested(): void {
+    this.cacheAgent();
   }
 }

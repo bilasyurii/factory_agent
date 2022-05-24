@@ -5,11 +5,13 @@ import ILevelConfig from './world/loading/level-config.interface';
 import Gameplay from './gameplay/gameplay';
 import HUD from './ui/hud';
 import GameplayEventType from './gameplay/gameplay-event-type.enum';
+import ImportExportManager from './helpers/import-export-manager';
 
 export default class GameContainer extends Phaser.GameObjects.Container {
   private world: World;
   private hud: HUD;
   private gameplay: Gameplay;
+  private importExportManager: ImportExportManager;
 
   constructor(scene: Scene, hud: HUD) {
     super(scene);
@@ -18,6 +20,7 @@ export default class GameContainer extends Phaser.GameObjects.Container {
 
     this.initWorld();
     this.initGameplay();
+    this.initImportExportManager();
     this.setupEvents();
     this.start();
   }
@@ -40,6 +43,11 @@ export default class GameContainer extends Phaser.GameObjects.Container {
   private setupEvents(): void {
     this.gameplay.on(GameplayEventType.Lose, this.onLose, this);
     this.gameplay.on(GameplayEventType.Win, this.onWin, this);
+    this.importExportManager.on(GameplayEventType.Import, this.onImport, this);
+  }
+
+  private initImportExportManager(): void {
+    this.importExportManager = new ImportExportManager(this.hud);
   }
 
   private start(): void {
@@ -62,6 +70,10 @@ export default class GameContainer extends Phaser.GameObjects.Container {
   }
 
   private onWin(): void {
+    this.start();
+  }
+
+  private onImport(): void {
     this.start();
   }
 }
