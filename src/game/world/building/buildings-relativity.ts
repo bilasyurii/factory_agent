@@ -1,4 +1,4 @@
-import BuildingType from "./building-type.enum";
+import BuildingType from './building-type.enum';
 
 export const BuildingsRelativity: Record<BuildingType, Record<BuildingType, true>> = <any>{};
 

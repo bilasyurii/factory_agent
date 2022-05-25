@@ -1,7 +1,7 @@
-import ResourceBunch from "../world/resource/resource-bunch";
-import ResourceType from "../world/resource/resource-type.enum";
-import TextButton from "./button";
-import HUDEventType from "./hud-event-type.enum";
+import ResourceBunch from '../world/resource/resource-bunch';
+import ResourceType from '../world/resource/resource-type.enum';
+import TextButton from './button';
+import HUDEventType from './hud-event-type.enum';
 
 export default class HUD extends Phaser.GameObjects.Container {
   private moneyText: PhaserText;

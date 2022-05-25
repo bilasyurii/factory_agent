@@ -1,8 +1,8 @@
-import GameplayEventType from "../gameplay/gameplay-event-type.enum";
-import AgentCache from "../gameplay/player/agent-cache";
-import HUD from "../ui/hud";
-import HUDEventType from "../ui/hud-event-type.enum";
-import FileManager from "./file-manager";
+import GameplayEventType from '../gameplay/gameplay-event-type.enum';
+import AgentCache from '../gameplay/player/agent-cache';
+import HUD from '../ui/hud';
+import HUDEventType from '../ui/hud-event-type.enum';
+import FileManager from './file-manager';
 
 export default class ImportExportManager extends Phaser.Events.EventEmitter {
   private hud: HUD;

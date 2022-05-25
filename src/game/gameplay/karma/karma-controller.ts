@@ -1,9 +1,9 @@
-import MathUtils from "../../../utils/math-utils";
-import Pathfinder from "../../world/grid/pathfinding/pathfinder";
-import ResourceBunch from "../../world/resource/resource-bunch";
-import ResourceType from "../../world/resource/resource-type.enum";
-import Karma from "./karma";
-import KarmaItem from "./karma-item";
+import MathUtils from '../../../utils/math-utils';
+import Pathfinder from '../../world/grid/pathfinding/pathfinder';
+import ResourceBunch from '../../world/resource/resource-bunch';
+import ResourceType from '../../world/resource/resource-type.enum';
+import Karma from './karma';
+import KarmaItem from './karma-item';
 
 export default class KarmaController {
   private karma: Karma;
